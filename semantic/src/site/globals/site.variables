@@ -1,0 +1,64 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@defaultBorderRadius: 0;
+
+/*-------------------
+       Fonts
+--------------------*/
+
+@headerFont        : 'Quattrocento', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@pageFont          : 'Quattrocento Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+@googleFontFamily  : 'Quattrocento+Sans:400,700|Quattrocento:400,700';
+
+/*-------------------
+    Brand Colors
+--------------------*/
+@brand 				: #10a2a2;
+@brand-yellow		: #ffd803;
+@brand-blue			: #123123;
+
+@primaryColor        : @brand;
+@secondaryColor      : @brand-yellow;
+
+@lightPrimaryColor   : @lightBlue;
+@lightSecondaryColor : @lightBlack;
+
+/*-------------------
+      Site Colors
+--------------------*/
+
+/*---  Colors  ---*/
+@red              : #DB2828;
+@orange           : #F2711C;
+@yellow           : #ffd803;
+@olive            : #B5CC18;
+@green            : #21BA45;
+@teal             : #10a2a2;
+@blue             : #123123;
+@violet           : #6435C9;
+@purple           : #A333C8;
+@pink             : #E03997;
+@brown            : #A5673F;
+@grey             : #767676;
+@black            : #1B1C1D;
+
+/*--------------
+  Page Heading
+---------------*/
+
+@headerFontWeight : bold;
+@headerLineHeight : unit((18 / 14), em);
+
+@h1 : unit((42 / 14), rem);
+@h2 : unit((28 / 14), rem);
+@h3 : unit((22 / 14), rem);
+@h4 : unit((18 / 14), rem);
+@h5 : unit((14 / 14), rem);
+
+/*-------------------
+       Links
+--------------------*/
+
+@linkColor           : @primaryColor;

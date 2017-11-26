@@ -1,0 +1,43 @@
+{
+  "name": "cbt",
+  "version": "1.0.0",
+  "description": "The CBT app's first Prototype.",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "next": "^4.1.4",
+    "prop-types": "^15.6.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "semantic-ui": "^2.2.13",
+    "semantic-ui-react": "^0.76.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "7.2.3",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.23.0",
+    "eslint": "3.19.0",
+    "eslint-config-standard": "10.2.1",
+    "eslint-plugin-import": "2.6.0",
+    "eslint-plugin-node": "4.2.2",
+    "eslint-plugin-promise": "3.5.0",
+    "eslint-plugin-react": "7.1.0",
+    "eslint-plugin-standard": "3.0.1",
+    "gulp": "3.9.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "semantic": "cd semantic && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulsRicketti/CBT.git"
+  },
+  "author": "Julia Ricketti",
+  "license": "MIT"
+}
