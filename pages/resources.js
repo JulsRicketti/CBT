@@ -1,11 +1,13 @@
 import React from 'react'
 import Page from '../components/Page'
 
-const Resources = () => (
-  <Page>
-    <h1>Resources</h1>
-  </Page>
-)
-
-
-export default Resources
+export default class Resources extends React.Component {
+  render () {
+    const { pathname } = this.props.url
+    return (
+      <Page pathname={pathname}>
+        <h1>Resources</h1>
+      </Page>
+    )
+  }
+}

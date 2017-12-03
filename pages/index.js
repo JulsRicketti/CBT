@@ -6,7 +6,7 @@ export default class extends React.Component {
   render () {
     const { pathname } = this.props.url
     return (
-      <Page>
+      <Page pathname={pathname}>
         <Dashboard />
       </Page>
     )

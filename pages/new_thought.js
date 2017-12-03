@@ -83,7 +83,6 @@ export default class NewThought extends React.Component {
   }
 
   handleChangeForms (target, value) {
-    console.warn('CHECKED', value)
     const { currentStep } = this.state
     const obj = Object.assign({}, this.state)
     obj[currentStep][target] = value
@@ -168,14 +167,10 @@ export default class NewThought extends React.Component {
   emotionJustification () {
     const { feelingDescription } = this.state
     const selectedFeelings = feelingList.filter(x => !!feelingDescription[x])
-    console.warn('Selected feelings', selectedFeelings)
     return (
-      <Form.Group>
-        {selectedFeelings.map((feeling, index) => 
-            <Form.TextArea label={`Describe what caused you to feel ${feeling.toLowerCase()}`}/>
-        )}
-      </Form.Group>
-
+        selectedFeelings.map((feeling, key) => 
+            <Form.TextArea key={key} label={`Describe what caused you to feel ${feeling.toLowerCase()}`}/>
+        )
     )
   }
 
@@ -214,8 +209,9 @@ export default class NewThought extends React.Component {
   }
 
   render () {
+    const { pathname } = this.props.url
     return (
-      <Page>
+      <Page pathname={pathname}>
         <h3>On each step carefully think of what you are about to write and
           reflect on what has been written.
         </h3>
@@ -225,6 +221,5 @@ export default class NewThought extends React.Component {
         {this.renderButtons()}
       </Page>
     )
-
   }
 }
