@@ -8,29 +8,51 @@ export default class NewThought extends React.Component {
     super(props)
 
     this.state = {
-      currentStep: 1,
+      currentStep: 'situationDescription',
+      situationDescription : {
+        date: '',
+        where: '',
+        what: '',
+        expectation: '',
+        situation: ''
+      },
+      feelingDescription: {
+
+      },
+      deconstruction: {
+
+      }
     }
   }
   
-  onClickStep(stepNumber) {
-    this.setState({ currentStep: stepNumber })
+  onClickStep(step) {
+    this.setState({ currentStep: step })
   }
 
-  isCurrentStep(stepNumber) {
-    return stepNumber === this.state.currentStep
+  isCurrentStep(step) {
+    return step === this.state.currentStep
   }
 
   renderSteps () {
     const { currentStep } = this.state
     return (
       <Step.Group>
-        <Step link={!this.isCurrentStep(1)} active={this.isCurrentStep(1)} onClick={() => this.onClickStep(1)}>
+        <Step
+        link={!this.isCurrentStep('situationDescription')}
+        active={this.isCurrentStep('situationDescription')}
+        onClick={() => this.onClickStep('situationDescription')}>
           <Step.Content>Situation Description</Step.Content>
         </Step>
-        <Step link={!this.isCurrentStep(2)} active={this.isCurrentStep(2)} onClick={() => this.onClickStep(2)}>
+        <Step
+        link={!this.isCurrentStep('feelingDescription')}
+        active={this.isCurrentStep('feelingDescription')}
+        onClick={() => this.onClickStep('feelingDescription')}>
           <Step.Content>Feeling Description</Step.Content>
         </Step>
-        <Step link={!this.isCurrentStep(3)} active={this.isCurrentStep(3)} onClick={() => this.onClickStep(3)}>
+        <Step
+        link={!this.isCurrentStep('deconstruction')}
+        active={this.isCurrentStep('deconstruction')}
+        onClick={() => this.onClickStep('deconstruction')}>
           <Step.Content>Deconstruction</Step.Content>
         </Step>
       </Step.Group>
@@ -41,22 +63,57 @@ export default class NewThought extends React.Component {
     const { currentStep } = this.state
 
     switch(currentStep) {
-      case 1:
+      case 'situationDescription':
         return this.renderThoughtDescriptionForm()
-      case 2:
+      case 'feelingDescription':
         return this.renderSituationDescriptionForm()
-      case 3:
+      case 'deconstruction':
         return this.renderDeconstructionForm()
     }
   }
 
+  handleChangeForms (target, value) {
+    const { currentStep } = this.state
+    const obj = Object.assign({}, this.state)
+    obj[currentStep][target] = value
+    this.setState(obj)
+  }
+
   renderThoughtDescriptionForm () {
+    const { situationDescription } = this.state
+    const {
+      date,
+      where,
+      what,
+      expectation,
+      situation
+    } = situationDescription
     return (
       <Form>
-        <Form.Input type='date'/>
-        <Form.Input type='text' label='Where were you?'/>
-        <Form.Input type='text' label='What were you doing?'/>
-        <Form.TextArea type='text' label='What happened?' />
+        <Form.Input
+        type='date'
+        value={date}
+        onChange={(evt) => this.handleChangeForms('date', evt.target.value)}/>
+        <Form.Input
+        type='text'
+        label='Where were you?'
+        value={where}
+        onChange={(evt) => this.handleChangeForms('where', evt.target.value)}/>
+        <Form.Input
+        type='text'
+        label='What were you doing?'
+        value={what}
+        onChange={(evt) => this.handleChangeForms('what', evt.target.value)}/>
+        <Form.TextArea
+        type='text'
+        label='What had you expected to happen?'
+        value={expectation}
+        onChange={(evt) => this.handleChangeForms('expectation', evt.target.value)}/>
+        <Form.TextArea
+        type='text'
+        label='What happened?'
+        value={situation}
+        onChange={(evt) => this.handleChangeForms('situation', evt.target.value)}/>
       </Form>
     )
   }
@@ -75,18 +132,24 @@ export default class NewThought extends React.Component {
 
   onClickPrevious () {
     const { currentStep } = this.state
-    this.setState({currentStep: currentStep - 1})
+    const next = currentStep === 'feelingDescription'
+    ? 'situationDescription' :
+    'feelingDescription'
+    this.setState({currentStep: next})
   }
 
   onClickNext () {
     const { currentStep } = this.state
-    this.setState({currentStep: currentStep + 1})
+    const next = currentStep === 'feelingDescription'
+    ? 'deconstruction' :
+    'feelingDescription'
+    this.setState({currentStep: next})
   }
 
   renderButtons () {
     const { currentStep } = this.state
-    const showNext = currentStep === 1 || currentStep === 2
-    const showPrevious = currentStep === 2 || currentStep === 3
+    const showNext = currentStep === 'situationDescription' || currentStep === 'feelingDescription'
+    const showPrevious = currentStep === 'feelingDescription' || currentStep === 'deconstruction'
     return (
       <div>
         {showPrevious ? <Button onClick={()=>this.onClickPrevious()}>Previous</Button> : null}
