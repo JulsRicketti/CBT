@@ -26,9 +26,8 @@ export default class extends React.Component {
 
 					<Menu.Menu position='right'>
 						<Menu.Item name=''/>
-						<Link href='/signin'><Menu.Item name='Thought Record' active={pathname === '/signin'} onClick={(evt, opts) => this.handleItemClick(evt, opts)} /></Link>
-						<Link href='/signin'><Menu.Item name='History' active={pathname === '/signin'} onClick={(evt, opts) => this.handleItemClick(evt, opts)} /></Link>
-						<Link href='/signin'><Menu.Item name='Resources' active={pathname === '/signin'} onClick={(evt, opts) => this.handleItemClick(evt, opts)} /></Link>
+						<Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} onClick={(evt, opts) => this.handleItemClick(evt, opts)} /></Link>
+						<Link href='/resources'><Menu.Item name='Resources' active={pathname === '/resources'} onClick={(evt, opts) => this.handleItemClick(evt, opts)} /></Link>
 						<Menu.Item>
 							<Link href='/new_thought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
 						</Menu.Item>
