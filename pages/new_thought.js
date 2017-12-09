@@ -9,7 +9,7 @@ import {
   Button,
   Checkbox
 } from 'semantic-ui-react'
-import { feelingList } from '../lib'
+import { feelingList, thinkingErrors } from '../lib'
 
 export default class NewThought extends React.Component {
   
@@ -30,7 +30,9 @@ export default class NewThought extends React.Component {
         emotionStrength: 0
       },
       deconstruction: {
-
+        supportingEvidence: '',
+        nonSupportingEvidence: '',
+        thinkingErrors: []
       }
     }
   }
@@ -175,8 +177,27 @@ export default class NewThought extends React.Component {
   }
 
   renderDeconstructionForm () {
+    const { deconstruction } = this.state
+    const { supportingEvidence, nonSupportingEvidence } = deconstruction
+    // TODO: add the thinkingErrors description on hover for each one!
     return (
-      <h3>Deconstruction Form</h3>
+      <Form>
+        <Form.Input
+        label='Evidence that supports the negative feeling.'
+        value={supportingEvidence}
+        onChange={(evt) => this.handleChangeForms('supportingEvidence', evt.target.value)}
+        />
+        <Divider hidden/>
+          { thinkingErrors.map((thought, index) => 
+            <Form.Input
+            key={index}
+            control={Checkbox}
+            label={thought.name}
+            checked={!!deconstruction[thought.name]}
+            onChange={(evt) => this.handleChangeForms(`${thought.name}`, !deconstruction[thought.name])}
+            />
+          ) }
+      </Form>
     )
   }
 
