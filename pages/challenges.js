@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from '../components/Page'
-import { Form, Table, Button, Icon, Modal } from 'semantic-ui-react'
+import { Form, Tab, Button, Icon, Modal, Divider } from 'semantic-ui-react'
 
 
 export default class Challenges extends React.Component {
@@ -26,7 +26,7 @@ export default class Challenges extends React.Component {
     this.setState(obj)
   }
 
-  renderForm () {
+  renderModalForm () {
     const {
       title,
       description,
@@ -64,9 +64,20 @@ export default class Challenges extends React.Component {
     )
   }
 
+  renderChallenges (name) {
+    return (
+      <Tab.Pane>{name}</Tab.Pane>
+    )
+  }
+
+
   render () {
     const { pathname } = this.props.url
     const { showNewChallengeForm } = this.state
+    const panes = [
+      {menuItem: 'Incompleted Challenges', render: () => this.renderChallenges('incomplete') },
+      {menuItem: 'Completed Challenges', render: () => this.renderChallenges('complete') }
+    ]
     return (
       <Page pathname={pathname}>
         <h1>Challenges</h1>
@@ -74,7 +85,9 @@ export default class Challenges extends React.Component {
           come in direct contact with their fears, register and observe how they felt,
           how they reacted and the results of their challenges.
         </h4>
-        {this.renderForm()}
+        {this.renderModalForm()}
+        <Divider/>
+        <Tab panes={panes}/>
       </Page>
     )
   }
