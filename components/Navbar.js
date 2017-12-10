@@ -13,6 +13,7 @@ export default class extends React.Component {
 
 					<Menu.Menu position='right'>
 						<Menu.Item name=''/>
+						<Link href='/challenges'><Menu.Item name='Challenges' active={pathname === '/challenges'} /></Link>
 						<Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} /></Link>
 						<Link href='/resources'><Menu.Item name='Resources' active={pathname === '/resources'} /></Link>
 						<Menu.Item>
