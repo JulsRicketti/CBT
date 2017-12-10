@@ -9,6 +9,7 @@ import {
   Button,
   Checkbox
 } from 'semantic-ui-react'
+import Link from 'next/link'
 import { feelingList, thinkingErrors } from '../lib'
 
 export default class NewThought extends React.Component {
@@ -17,7 +18,7 @@ export default class NewThought extends React.Component {
     super(props)
 
     this.state = {
-      currentStep: 'feelingDescription', // TODO: change back to situationDescription
+      currentStep: 'situationDescription',
       situationDescription : {
         date: '',
         where: '',
@@ -32,7 +33,9 @@ export default class NewThought extends React.Component {
       deconstruction: {
         supportingEvidence: '',
         nonSupportingEvidence: '',
-        thinkingErrors: []
+        thinkingErrors: [],
+        alternativeThought: '',
+        emotionStrength: 0
       }
     }
   }
@@ -178,16 +181,32 @@ export default class NewThought extends React.Component {
 
   renderDeconstructionForm () {
     const { deconstruction } = this.state
-    const { supportingEvidence, nonSupportingEvidence } = deconstruction
+    const {
+      supportingEvidence,
+      nonSupportingEvidence,
+      alternativeThought,
+      emotionStrength
+    } = deconstruction
     // TODO: add the thinkingErrors description on hover for each one!
     return (
       <Form>
-        <Form.Input
+        <Form.TextArea
         label='Evidence that supports the negative feeling.'
         value={supportingEvidence}
         onChange={(evt) => this.handleChangeForms('supportingEvidence', evt.target.value)}
         />
+        <Form.TextArea
+        label='Evidence that does NOT support the negative feeling.'
+        value={nonSupportingEvidence}
+        onChange={(evt) => this.handleChangeForms('nonSupportingEvidence', evt.target.value)}
+        />
         <Divider hidden/>
+          <h4>
+            Thinking errors:
+            <a href='https://www.psychologytoday.com/blog/what-mentally-strong-people-dont-do/201501/10-thinking-errors-will-crush-your-mental-strength'>
+            <Icon className='info circle'/>
+            </a>
+          </h4>
           { thinkingErrors.map((thought, index) => 
             <Form.Input
             key={index}
@@ -197,6 +216,19 @@ export default class NewThought extends React.Component {
             onChange={(evt) => this.handleChangeForms(`${thought.name}`, !deconstruction[thought.name])}
             />
           ) }
+        <Form.TextArea
+          label=' Weighing up the evidence for and against as well as the thinking errors, what do you believe now?'
+          value={alternativeThought}
+          onChange={(evt) => this.handleChangeForms('alternativeThought', evt.target.value)}
+          />
+        <Form.Input
+          label={`New strengh of emotion: ${emotionStrength}% `}
+          min={0}
+          max={100}
+          value={emotionStrength}
+          onChange={(evt) => this.handleChangeForms('emotionStrength', evt.target.value)}
+          type='range'
+          />
       </Form>
     )
   }
@@ -225,6 +257,7 @@ export default class NewThought extends React.Component {
       <div>
         {showPrevious ? <Button onClick={()=>this.onClickPrevious()}>Previous</Button> : null}
         {showNext ? <Button onClick={()=>this.onClickNext()}>Next</Button> : null}
+        {currentStep === 'deconstruction' ? <Link href='/'><Button color='black'>Finish</Button></Link> : null}
       </div>
     )
   }
