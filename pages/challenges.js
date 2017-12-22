@@ -1,16 +1,16 @@
 import React from 'react'
 import Page from '../components/Page'
+import { withLocalStore } from '../lib/connect'
 import { Form, Tab, Button, Icon, Modal, Divider } from 'semantic-ui-react'
 
 
-export default class Challenges extends React.Component {
+class Challenges extends React.Component {
 
   constructor (props) {
     super(props)
 
     this.state = {
       showNewChallengeForm: false,
-      title:'',
       description: '',
       difficulty: 0
     }
@@ -21,18 +21,23 @@ export default class Challenges extends React.Component {
   }
 
   handleChangeForms (target, value) {
-    const obj = {}
-    obj[target] = value
-    this.setState(obj)
+    if (target === 'title') {
+      this.props.setTitle(value)
+    } else {
+      const obj = {}
+      obj[target] = value
+      this.setState(obj)
+    }
   }
 
   renderModalForm () {
     const {
-      title,
       description,
       difficulty,
       difficultyList
     } = this.state
+
+    const { title } = this.props
     return (
       <Modal closeIcon trigger={<Button onClick={() => this.setState({showNewChallengeForm: true})}><Icon className='plus'/>New Challenge</Button>}>
         <Modal.Header>New Challenge</Modal.Header>
@@ -92,3 +97,13 @@ export default class Challenges extends React.Component {
     )
   }
 }
+
+export default withLocalStore ((store)=> {
+  return {
+    title: store.title || '',
+    setTitle: (title) => {
+      console.warn('SET TITLE', title)
+      store.title = title
+    }
+  }
+})(Challenges)
