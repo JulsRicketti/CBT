@@ -13,12 +13,17 @@ class Challenges extends React.Component {
       showNewChallengeForm: false,
       title: '',
       description: '',
-      difficulty: 1
+      difficulty: 0
     }
   }
 
   renderChallenges () {
 
+  }
+
+  disableCreateButton () {
+    const { title, description, difficulty } = this.state
+    return !title || !description || !difficulty
   }
 
   handleChangeForms (target, value) {
@@ -33,10 +38,9 @@ class Challenges extends React.Component {
     const { title, description, difficulty } = this.state
     const { setTitle, setDescription, setDifficulty } = this.props
 
-    // setTitle(title)
-    // setDescription(description)
-    // setDifficulty(difficulty)
-    // this.setState({showNewChallengeForm: false})
+    setTitle(title)
+    setDescription(description)
+    setDifficulty(difficulty)
     this.closeModal()
   }
 
@@ -49,7 +53,6 @@ class Challenges extends React.Component {
       title,
       description,
       difficulty,
-      difficultyList,
       showNewChallengeForm
     } = this.state
 
@@ -77,7 +80,7 @@ class Challenges extends React.Component {
               value={difficulty}
               onChange={(evt) => this.handleChangeForms('difficulty', evt.target.value)}
             />
-            <Button onClick={(evt) => this.handleCreateButton(evt)}>Create</Button>
+            <Button onClick={(evt) => this.handleCreateButton(evt)} disabled={this.disableCreateButton()}>Create</Button>
           </Form>
         </Modal.Content>
       </Modal>
@@ -122,6 +125,7 @@ export default withLocalStore ((store)=> {
     title: store.title || [],
     setTitle: (title) => {
       // store.title = title
+      console.warn('title', store)
       if (!Array.isArray(store.title)) {
         store.title = []
       }
