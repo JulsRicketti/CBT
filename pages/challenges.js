@@ -11,8 +11,9 @@ class Challenges extends React.Component {
 
     this.state = {
       showNewChallengeForm: false,
+      title: '',
       description: '',
-      difficulty: 0
+      difficulty: 1
     }
   }
 
@@ -21,25 +22,39 @@ class Challenges extends React.Component {
   }
 
   handleChangeForms (target, value) {
-    if (target === 'title') {
-      this.props.setTitle(value)
-    } else {
-      const obj = {}
-      obj[target] = value
-      this.setState(obj)
-    }
+    const obj = {}
+    obj[target] = value
+    this.setState(obj)
+  }
+
+  handleCreateButton (evt) {
+    evt.preventDefault()
+    
+    const { title, description, difficulty } = this.state
+    const { setTitle, setDescription, setDifficulty } = this.props
+
+    // setTitle(title)
+    // setDescription(description)
+    // setDifficulty(difficulty)
+    // this.setState({showNewChallengeForm: false})
+    this.closeModal()
+  }
+
+  closeModal () {
+    this.setState({ showNewChallengeForm: false })
   }
 
   renderModalForm () {
     const {
+      title,
       description,
       difficulty,
-      difficultyList
+      difficultyList,
+      showNewChallengeForm
     } = this.state
 
-    const { title } = this.props
     return (
-      <Modal closeIcon trigger={<Button onClick={() => this.setState({showNewChallengeForm: true})}><Icon className='plus'/>New Challenge</Button>}>
+      <Modal closeIcon onClose={() => this.closeModal()} open={showNewChallengeForm} trigger={<Button onClick={() => this.setState({showNewChallengeForm: true})}><Icon className='plus'/>New Challenge</Button>}>
         <Modal.Header>New Challenge</Modal.Header>
         <Modal.Content>
           <Form>
@@ -62,7 +77,7 @@ class Challenges extends React.Component {
               value={difficulty}
               onChange={(evt) => this.handleChangeForms('difficulty', evt.target.value)}
             />
-            <Button>Create</Button>
+            <Button onClick={(evt) => this.handleCreateButton(evt)}>Create</Button>
           </Form>
         </Modal.Content>
       </Modal>
@@ -75,6 +90,10 @@ class Challenges extends React.Component {
     )
   }
 
+  showModal () {
+    this.setState({showNewChallengeForm: true})
+    $(this.modal).modal('show')
+  }
 
   render () {
     const { pathname } = this.props.url
@@ -100,10 +119,31 @@ class Challenges extends React.Component {
 
 export default withLocalStore ((store)=> {
   return {
-    title: store.title || '',
+    title: store.title || [],
     setTitle: (title) => {
-      console.warn('SET TITLE', title)
-      store.title = title
+      // store.title = title
+      if (!Array.isArray(store.title)) {
+        store.title = []
+      }
+      store.title.push(title)
+    },
+    description: store.description || [],
+    setDescription: (description) => {
+      // store.description = description
+      if (!Array.isArray(store.description)) {
+        store.description = []
+      }
+      store.description.push(description)
+
+    },
+    difficulty: store.difficulty || [],
+    setDifficulty: (difficulty) => {
+      // store.difficulty = difficulty
+      if (!Array.isArray(store.difficulty)) {
+        store.difficulty = []
+      }
+      store.difficulty.push(difficulty)
+
     }
   }
 })(Challenges)
