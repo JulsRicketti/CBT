@@ -23,11 +23,6 @@ export default class SignUp extends React.Component {
     )
   }
 
-  isPasswordDifferent () {
-    const { password, passwordConfirm } = this.state
-    return password !== passwordConfirm
-  }
-
   handleChangeForms (target, value) {
     const obj = {}
     obj[target] = value
@@ -36,6 +31,20 @@ export default class SignUp extends React.Component {
 
   handleSignUpButton (evt) {
     evt.preventDefault()
+    const { email, password } = this.state
+
+    // user creation
+    axios.post('http://localhost:3001/api/users', { email, password })
+      .then(res => {
+        // login
+        axios.post('http://localhost:3001/api/users/login', { email, password })
+          .then(res => {
+            const token = res.data.id
+            localStorage.setItem('jwtToken', token)
+            console.warn('successfully logged in!')
+          })
+      })
+
   }
 
   render () {

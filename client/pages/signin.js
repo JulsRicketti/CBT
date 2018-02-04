@@ -22,9 +22,14 @@ export default class SignIn extends React.Component {
 
   handleSignUpButton (evt) {
     evt.preventDefault()
-    // hereeee
-    axios.get('http://localhost:3001/api/blahs')
-      .then(()=>{ console.warn('success') })
+    const { email, password } = this.state
+
+    axios.post('http://localhost:3001/api/users/login', { email, password })
+    .then(res => {
+      const token = res.data.id
+      localStorage.setItem('jwtToken', token)
+      console.warn('successfully logged in!')
+    })
   }
 
   render () {
