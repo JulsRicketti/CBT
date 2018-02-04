@@ -1,6 +1,7 @@
 import React from 'react'
 import Page from '../components/Page'
 import Link from 'next/link'
+import axios from 'axios'
 import { Form, Button, Divider, Header } from 'semantic-ui-react'
 
 export default class SignIn extends React.Component {
@@ -21,6 +22,9 @@ export default class SignIn extends React.Component {
 
   handleSignUpButton (evt) {
     evt.preventDefault()
+    // hereeee
+    axios.get('http://localhost:3001/api/blahs')
+      .then(()=>{ console.warn('success') })
   }
 
   render () {

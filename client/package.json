@@ -4,6 +4,7 @@
   "description": "The CBT app's first Prototype.",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.17.1",
     "jquery": "^3.2.1",
     "next": "^4.1.4",
     "prop-types": "^15.6.0",

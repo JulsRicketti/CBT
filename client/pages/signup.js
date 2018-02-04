@@ -1,7 +1,8 @@
 import React from 'react'
 import Page from '../components/Page'
 import Link from 'next/link'
-import { Form, Button, Divider, Header } from 'semantic-ui-react'
+import { Label, Form, Button, Divider, Header, Input } from 'semantic-ui-react'
+import axios from 'axios'
 
 export default class SignUp extends React.Component {
   constructor (props) {
@@ -12,6 +13,19 @@ export default class SignUp extends React.Component {
       password: '',
       passwordConfirm: ''
     }
+  }
+
+  disableSignUpButton () {
+    const { email, password, passwordConfirm } = this.state
+    return (
+      (!email.length || !password.length || !passwordConfirm.length) ||
+      password !== passwordConfirm
+    )
+  }
+
+  isPasswordDifferent () {
+    const { password, passwordConfirm } = this.state
+    return password !== passwordConfirm
   }
 
   handleChangeForms (target, value) {
@@ -26,6 +40,7 @@ export default class SignUp extends React.Component {
 
   render () {
     const { email, password, passwordConfirm } = this.state
+
     return (
       <Page>
         <Header>Sign Up</Header>
@@ -49,7 +64,7 @@ export default class SignUp extends React.Component {
             onChange={(evt) => this.handleChangeForms('passwordConfirm', evt.target.value)}
           />
           <Divider />
-          <Button onClick={(evt) => this.handleSignUpButton(evt)}>Sign Up</Button>
+          <Button onClick={(evt) => this.handleSignUpButton(evt)} disabled={this.disableSignUpButton()}>Sign Up</Button>
           <Link href='/signin'>Already a member? Sign in here!</Link>
         </Form>
       </Page>
