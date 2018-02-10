@@ -3,7 +3,8 @@ import Page from '../components/Page'
 import { withLocalStore } from '../lib/connect'
 import { Form, Tab, Button, Icon, Modal, Divider } from 'semantic-ui-react'
 
-
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
 class Challenges extends React.Component {
 
   constructor (props) {
@@ -120,34 +121,36 @@ class Challenges extends React.Component {
   }
 }
 
-export default withLocalStore ((store)=> {
-  return {
-    title: store.title || [],
-    setTitle: (title) => {
-      // store.title = title
-      console.warn('title', store)
-      if (!Array.isArray(store.title)) {
-        store.title = []
-      }
-      store.title.push(title)
-    },
-    description: store.description || [],
-    setDescription: (description) => {
-      // store.description = description
-      if (!Array.isArray(store.description)) {
-        store.description = []
-      }
-      store.description.push(description)
+// export default withLocalStore ((store)=> {
+//   return {
+//     title: store.title || [],
+//     setTitle: (title) => {
+//       // store.title = title
+//       console.warn('title', store)
+//       if (!Array.isArray(store.title)) {
+//         store.title = []
+//       }
+//       store.title.push(title)
+//     },
+//     description: store.description || [],
+//     setDescription: (description) => {
+//       // store.description = description
+//       if (!Array.isArray(store.description)) {
+//         store.description = []
+//       }
+//       store.description.push(description)
 
-    },
-    difficulty: store.difficulty || [],
-    setDifficulty: (difficulty) => {
-      // store.difficulty = difficulty
-      if (!Array.isArray(store.difficulty)) {
-        store.difficulty = []
-      }
-      store.difficulty.push(difficulty)
+//     },
+//     difficulty: store.difficulty || [],
+//     setDifficulty: (difficulty) => {
+//       // store.difficulty = difficulty
+//       if (!Array.isArray(store.difficulty)) {
+//         store.difficulty = []
+//       }
+//       store.difficulty.push(difficulty)
 
-    }
-  }
-})(Challenges)
+//     }
+//   }
+// })(Challenges)
+
+export default withRedux(createStore, null, null)(Challenges)

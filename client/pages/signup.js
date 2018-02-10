@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { Label, Form, Button, Divider, Header, Input } from 'semantic-ui-react'
 import axios from 'axios'
 
-export default class SignUp extends React.Component {
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
+
+class SignUp extends React.Component {
   constructor (props) {
     super(props)
 
@@ -80,3 +83,5 @@ export default class SignUp extends React.Component {
     )
   }
 }
+
+export default withRedux(createStore, null, null)(SignUp)

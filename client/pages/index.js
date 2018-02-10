@@ -2,7 +2,10 @@ import React from 'react'
 import Page from '../components/Page'
 import Dashboard from '../components/Dashboard'
 
-export default class extends React.Component {
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
+
+class Main extends React.Component {
   render () {
     const { pathname } = this.props.url
     return (
@@ -12,3 +15,5 @@ export default class extends React.Component {
     )
   }
 }
+
+export default withRedux(createStore, null, null)(Main)

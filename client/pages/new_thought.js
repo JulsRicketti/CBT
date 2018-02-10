@@ -12,7 +12,10 @@ import {
 import Link from 'next/link'
 import { feelingList, thinkingErrors } from '../lib'
 
-export default class NewThought extends React.Component {
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
+
+class NewThought extends React.Component {
   
   constructor (props) {
     super(props)
@@ -277,3 +280,5 @@ export default class NewThought extends React.Component {
     )
   }
 }
+
+export default withRedux(createStore, null, null)(NewThought)
