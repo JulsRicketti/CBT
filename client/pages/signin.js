@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import Link from 'next/link'
+import Router from 'next/router'
 import axios from 'axios'
 import { Form, Button, Divider, Header } from 'semantic-ui-react'
 
@@ -26,6 +27,10 @@ class SignIn extends React.Component {
       email: '',
       password: ''
     }
+  }
+
+  static async getInitialProps (props) {
+    console.warn(props)
   }
 
   handleChangeForms (target, value) {
@@ -85,6 +90,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
      logInUser (user) {
       dispatch(setLoggedInUser(user))
+      Router.push('/')
     }
   }
 }

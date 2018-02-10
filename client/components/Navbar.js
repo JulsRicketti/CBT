@@ -17,8 +17,7 @@ class Navbar extends React.Component {
   componentWillMount () {
     if (typeof localStorage !== 'undefined') {
       try {
-        console.warn(localStorage.getItem('jwtToken'))
-        this.props.unsetLoggedInUser()
+        this.props.setLoggedInUser()
       } catch (e) {
         // do nothing
       }

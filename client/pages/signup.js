@@ -1,11 +1,16 @@
 import React from 'react'
 import Page from '../components/Page'
 import Link from 'next/link'
+import Router from 'next/router'
 import { Label, Form, Button, Divider, Header, Input } from 'semantic-ui-react'
 import axios from 'axios'
 
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
+
+const {
+  user: { setLoggedInUser }
+} = actions
 
 class SignUp extends React.Component {
   constructor (props) {
@@ -44,7 +49,7 @@ class SignUp extends React.Component {
           .then(res => {
             const token = res.data.id
             localStorage.setItem('jwtToken', token)
-            console.warn('successfully logged in!')
+            this.props.logInUser(res.data)
           })
       })
 
@@ -84,4 +89,19 @@ class SignUp extends React.Component {
   }
 }
 
-export default withRedux(createStore, null, null)(SignUp)
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.loggedInUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+     logInUser (user) {
+      dispatch(setLoggedInUser(user))
+      Router.push('/')
+    }
+  }
+}
+
+export default withRedux(createStore, mapStateToProps, mapDispatchToProps)(SignUp)
