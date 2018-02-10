@@ -4,6 +4,10 @@ import Link from 'next/link'
 import axios from 'axios'
 import { Form, Button, Divider, Header } from 'semantic-ui-react'
 
+// import withRedux from "next-redux-wrapper"
+// import { connect } from 'react-redux'
+
+
 export default class SignIn extends React.Component {
   constructor (props) {
     super(props)
@@ -33,6 +37,7 @@ export default class SignIn extends React.Component {
   }
 
   render () {
+    // console.warn('Redux test:', this.props.test)
     const { email, password } = this.state
     return (
       <Page>
@@ -58,3 +63,11 @@ export default class SignIn extends React.Component {
     )
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     test: state.test.test
+//   }
+// }
+
+// export default withRedux(mapStateToProps, null)(SignIn)
