@@ -1,8 +1,6 @@
-import * as test from './ducks/test'
-
-
+import * as user from './ducks/user'
 export { default as createStore } from './createStore'
 
 export const actions = Object.assign(
-  { test }
+  { user }
 )

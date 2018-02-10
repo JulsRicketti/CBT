@@ -1,34 +1,38 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Menu, Segment, Icon, Button } from 'semantic-ui-react'
 import Link from 'next/link'
+import { actions } from '../store'
+import { connect } from 'react-redux'
 
-export default class extends React.Component {
+const {
+  user: { setLoggedInUser }
+} = actions
 
-  constructor (props, context) {
-    super(props, context)
+class Navbar extends React.Component {
+  static propTypes = {
+    user: PropTypes.object
+  }
 
-    this.state = {}
-
+  componentWillMount () {
     if (typeof localStorage !== 'undefined') {
       try {
         console.warn(localStorage.getItem('jwtToken'))
-        this.state.isSignedIn = JSON.parse(localStorage.getItem('jwtToken')) || ''
+        this.props.unsetLoggedInUser()
       } catch (e) {
         // do nothing
       }
     }
-
   }
 
   handleLogout () {
     localStorage.removeItem('jwtToken')
-    this.setState({isSignedIn : ''})
+    this.props.unsetLoggedInUser()
   }
 
   render () {
-    const { pathname } = this.props
+    const { pathname, user } = this.props
 
-    console.warn('is Signed in? ',this.state.isSignedIn)
     return (
       <Segment inverted style={{ padding: 0, position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 9999999 }}>
         <Menu inverted pointing secondary>
@@ -36,17 +40,35 @@ export default class extends React.Component {
 
           <Menu.Menu position='right'>
             <Menu.Item name=''/>
-            <Link href='/challenges'><Menu.Item name='Chasasadsllenges' active={pathname === '/challenges'} /></Link>
+            <Link href='/challenges'><Menu.Item name='Challenges' active={pathname === '/challenges'} /></Link>
             <Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} /></Link>
-            {/* <Link href='/resources'><Menu.Item name='Resources' active={pathname === '/resources'} /></Link> */}
             <Menu.Item>
               <Link href='/new_thought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
             </Menu.Item>
-            {this.state.isSignedIn ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <Link href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></Link>}
-            {this.state.isSignedIn ? null : <Link href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></Link>}
+            {this.props.user ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <Link href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></Link>}
+            {this.props.user ? null : <Link href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></Link>}
           </Menu.Menu>
         </Menu>
       </Segment>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.loggedInUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoggedInUser () {
+
+    },
+    unsetLoggedInUser () {
+      dispatch(setLoggedInUser(null))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

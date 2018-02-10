@@ -1,14 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import Link from 'next/link'
 import axios from 'axios'
 import { Form, Button, Divider, Header } from 'semantic-ui-react'
 
-// import withRedux from "next-redux-wrapper"
-// import { connect } from 'react-redux'
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
+
+const {
+  user: { setLoggedInUser }
+} = actions
 
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
+
+  static propTypes = {
+    user: PropTypes.object
+  }
+
   constructor (props) {
     super(props)
 
@@ -26,18 +36,19 @@ export default class SignIn extends React.Component {
 
   handleSignUpButton (evt) {
     evt.preventDefault()
+    this.props.setTest
     const { email, password } = this.state
 
     axios.post('http://localhost:3001/api/users/login', { email, password })
     .then(res => {
       const token = res.data.id
       localStorage.setItem('jwtToken', token)
-      console.warn('successfully logged in!')
+      this.props.logInUser(res.data)
+
     })
   }
 
   render () {
-    // console.warn('Redux test:', this.props.test)
     const { email, password } = this.state
     return (
       <Page>
@@ -64,10 +75,18 @@ export default class SignIn extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     test: state.test.test
-//   }
-// }
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.loggedInUser
+  }
+}
 
-// export default withRedux(mapStateToProps, null)(SignIn)
+const mapDispatchToProps = (dispatch) => {
+  return {
+     logInUser (user) {
+      dispatch(setLoggedInUser(user))
+    }
+  }
+}
+
+export default withRedux(createStore, mapStateToProps, mapDispatchToProps)(SignIn)

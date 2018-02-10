@@ -7,16 +7,21 @@ import {
 import { routerReducer } from 'react-router-redux'
 import * as reducers from './ducks'
 
-/* global __REDUX_DEVTOOLS_EXTENSION_COMPOSE__, __INITIAL_STATE__ */
-
 const allReducers = Object.assign({}, reducers, {
   routing: routerReducer
 })
 
-export default function createStore (...middlewares) {
+const composeEnhancers = typeof __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function'
+  ? __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  : compose
+
+  const initialState = typeof __INITIAL_STATE__ === 'object'
+  ? __INITIAL_STATE__
+  : {}
+
+export default function createStore () {
   return doCreateStore(
     combineReducers(allReducers),
-    initialState,
-    composeEnhancers(applyMiddleware(...middlewares))
+    initialState
   )
 }
