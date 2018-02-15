@@ -4,6 +4,7 @@ import { Menu, Segment, Icon, Button } from 'semantic-ui-react'
 import Link from 'next/link'
 import { actions } from '../store'
 import { connect } from 'react-redux'
+import unauthenticate from '../lib/unauthenticate'
 
 const {
   user: { setLoggedInUser }
@@ -25,7 +26,7 @@ class Navbar extends React.Component {
   }
 
   handleLogout () {
-    localStorage.removeItem('jwtToken')
+    unauthenticate()
     this.props.unsetLoggedInUser()
   }
 

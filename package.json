@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
+    "dev": "node .",
     "posttest": "npm run lint && nsp check",
     "create-tables": "node server/create-lb-tables.js"
   },

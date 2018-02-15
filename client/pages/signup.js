@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
+import authenticate from '../lib/authenticate';
 
 const {
   user: { setLoggedInUser }
@@ -44,13 +45,10 @@ class SignUp extends React.Component {
     // user creation
     axios.post('http://localhost:3001/api/users', { email, password })
       .then(res => {
-        // login
-        axios.post('http://localhost:3001/api/users/login', { email, password })
-          .then(res => {
-            const token = res.data.id
-            localStorage.setItem('jwtToken', token)
-            this.props.logInUser(res.data)
-          })
+        authenticate(email, password)
+        .then(user => {
+          this.props.logInUser(user.data)
+        })
       })
 
   }

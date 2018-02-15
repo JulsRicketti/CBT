@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import Link from 'next/link'
 import Router from 'next/router'
-import axios from 'axios'
+import authenticate from '../lib/authenticate'
 import { Form, Button, Divider, Header } from 'semantic-ui-react'
 
 import withRedux from 'next-redux-wrapper'
@@ -44,12 +44,9 @@ class SignIn extends React.Component {
     this.props.setTest
     const { email, password } = this.state
 
-    axios.post('http://localhost:3001/api/users/login', { email, password })
-    .then(res => {
-      const token = res.data.id
-      localStorage.setItem('jwtToken', token)
-      this.props.logInUser(res.data)
-
+    authenticate(email, password)
+    .then(user => {
+      this.props.logInUser(user.data)
     })
   }
 
