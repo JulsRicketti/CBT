@@ -1,8 +1,7 @@
 import React from 'react'
 import Page from '../components/Page'
-import { withLocalStore } from '../lib/connect'
 import { Form, Tab, Button, Icon, Modal, Divider } from 'semantic-ui-react'
-
+import axios from 'axios'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 class Challenges extends React.Component {
@@ -18,9 +17,14 @@ class Challenges extends React.Component {
     }
   }
 
-  renderChallenges () {
-
+  componentDidMount () {
+    
+    axios.get('http://localhost:3001/api/challenges', {params: { access_token: this.props.user.id }})
+      .then(res => {
+        console.warn('hereeee', res)
+      })
   }
+
 
   disableCreateButton () {
     const { title, description, difficulty } = this.state
@@ -88,7 +92,7 @@ class Challenges extends React.Component {
     )
   }
 
-  renderChallenges (name) {
+  renderChallenges (status) {
     return (
       <Tab.Pane>{name}</Tab.Pane>
     )
@@ -102,6 +106,7 @@ class Challenges extends React.Component {
   render () {
     const { pathname } = this.props.url
     const { showNewChallengeForm } = this.state
+    // TODO: create a different function for each status!
     const panes = [
       {menuItem: 'Incompleted Challenges', render: () => this.renderChallenges('incomplete') },
       {menuItem: 'Completed Challenges', render: () => this.renderChallenges('complete') }
@@ -121,36 +126,16 @@ class Challenges extends React.Component {
   }
 }
 
-// export default withLocalStore ((store)=> {
-//   return {
-//     title: store.title || [],
-//     setTitle: (title) => {
-//       // store.title = title
-//       console.warn('title', store)
-//       if (!Array.isArray(store.title)) {
-//         store.title = []
-//       }
-//       store.title.push(title)
-//     },
-//     description: store.description || [],
-//     setDescription: (description) => {
-//       // store.description = description
-//       if (!Array.isArray(store.description)) {
-//         store.description = []
-//       }
-//       store.description.push(description)
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.loggedInUser
+  }
+}
 
-//     },
-//     difficulty: store.difficulty || [],
-//     setDifficulty: (difficulty) => {
-//       // store.difficulty = difficulty
-//       if (!Array.isArray(store.difficulty)) {
-//         store.difficulty = []
-//       }
-//       store.difficulty.push(difficulty)
+const mapDispatchToProps = (dispatch) => {
+  return {
 
-//     }
-//   }
-// })(Challenges)
+  }
+}
 
-export default withRedux(createStore, null, null)(Challenges)
+export default withRedux(createStore, mapStateToProps, mapDispatchToProps)(Challenges)

@@ -19,6 +19,7 @@
     },
     "status": {
       "type": "string",
+      "default": "incomplete",
       "required": true
     }
   },
