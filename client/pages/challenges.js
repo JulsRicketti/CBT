@@ -61,6 +61,7 @@ class Challenges extends React.Component {
       {menuItem: 'Incomplete Challenges', render: () => this.renderChallenges('incomplete') },
       {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
+    console.warn('user (challenges)', this.props.user)
     return (
       <Page pathname={pathname}>
         <h1>Challenges</h1>
@@ -68,7 +69,7 @@ class Challenges extends React.Component {
           come in direct contact with their fears, register and observe how they felt,
           how they reacted and the results of their challenges.
         </h4>
-        <ChallengeModal/>
+        <ChallengeModal user={this.props.user}/>
         <Divider/>
         <Tab panes={panes}/>
       </Page>

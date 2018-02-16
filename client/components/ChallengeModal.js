@@ -1,8 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
-
+import axios from 'axios'
 export default class ChallengeModal extends React.Component {
+
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  }
 
   constructor (props) {
     super(props)
@@ -28,13 +33,17 @@ export default class ChallengeModal extends React.Component {
 
   handleCreateButton (evt) {
     evt.preventDefault()
-    
     const { title, description, difficulty } = this.state
-    const { setTitle, setDescription, setDifficulty } = this.props
+    const { user } = this.props
 
-    setTitle(title)
-    setDescription(description)
-    setDifficulty(difficulty)
+    // TODO: make it work!
+    axios.post('http://localhost:3001/api/challenges', {
+      title, description, difficulty, userId: user.userId
+    })
+      .then(res => {
+        console.warn('success!', res)
+      })
+
     this.closeModal()
   }
 
@@ -48,6 +57,7 @@ export default class ChallengeModal extends React.Component {
   }
 
   render() {
+    console.warn('user (challengeModal)', this.props.user)
     const {
       title,
       description,
