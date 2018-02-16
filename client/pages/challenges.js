@@ -1,6 +1,6 @@
 import React from 'react'
 import Page from '../components/Page'
-import { Form, Tab, Button, Icon, Modal, Divider } from 'semantic-ui-react'
+import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
 import axios from 'axios'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
@@ -13,7 +13,8 @@ class Challenges extends React.Component {
       showNewChallengeForm: false,
       title: '',
       description: '',
-      difficulty: 0
+      difficulty: 0,
+      challenges: []
     }
   }
 
@@ -22,6 +23,7 @@ class Challenges extends React.Component {
     axios.get('http://localhost:3001/api/challenges', {params: { access_token: this.props.user.id }})
       .then(res => {
         console.warn('hereeee', res)
+        this.setState({ challenges: res.data })
       })
   }
 
@@ -93,10 +95,34 @@ class Challenges extends React.Component {
   }
 
   renderChallenges (status) {
+    const { challenges } = this.state
+    const label = (
+      status === 'complete'
+        ? <Label color='teal' tag>{status}</Label>
+        : <Label color='red' tag>{status}</Label>
+    )
     return (
-      <Tab.Pane>{name}</Tab.Pane>
+      <div>
+      {
+        challenges.filter (x => x.status === status)
+        .map((challenge, key) => {
+          return (
+            <Tab.Pane key={key}>
+              <Segment>
+                <Grid columns='equal'>
+                  <Grid.Column> {challenge.title} </Grid.Column>
+                  <Grid.Column> {challenge.description} </Grid.Column>
+                  <Grid.Column floated='left'> {label} </Grid.Column>
+                </Grid>
+              </Segment>
+            </Tab.Pane>
+          )
+        })
+      }
+      </div>
     )
   }
+
 
   showModal () {
     this.setState({showNewChallengeForm: true})
@@ -106,10 +132,10 @@ class Challenges extends React.Component {
   render () {
     const { pathname } = this.props.url
     const { showNewChallengeForm } = this.state
-    // TODO: create a different function for each status!
+
     const panes = [
-      {menuItem: 'Incompleted Challenges', render: () => this.renderChallenges('incomplete') },
-      {menuItem: 'Completed Challenges', render: () => this.renderChallenges('complete') }
+      {menuItem: 'Incomplete Challenges', render: () => this.renderChallenges('incomplete') },
+      {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
     return (
       <Page pathname={pathname}>
