@@ -61,7 +61,7 @@ class Challenges extends React.Component {
       {menuItem: 'Incomplete Challenges', render: () => this.renderChallenges('incomplete') },
       {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
-    console.warn('user (challenges)', this.props.user)
+
     return (
       <Page pathname={pathname}>
         <h1>Challenges</h1>

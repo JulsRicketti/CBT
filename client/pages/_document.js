@@ -1,6 +1,8 @@
 import Document, { Head, Main, NextScript } from 'next/document'
 import flush from 'styled-jsx/server'
 
+// TODO: Look into how to keep the user logged in and fetch all necessary
+// data to be passed in as props.
 export default class extends Document {
   static getInitialProps ({ renderPage }) {
     const { html, head, errorHtml, chunks } = renderPage()

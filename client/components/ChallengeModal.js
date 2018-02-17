@@ -2,8 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
-import axios from 'axios'
-export default class ChallengeModal extends React.Component {
+import withRedux from 'next-redux-wrapper'
+import { createStore, actions } from '../store'
+
+const {
+  challenge: { setNewChallenge }
+} = actions
+class ChallengeModal extends React.Component {
 
   static propTypes = {
     user: PropTypes.object.isRequired
@@ -34,14 +39,15 @@ export default class ChallengeModal extends React.Component {
   handleCreateButton (evt) {
     evt.preventDefault()
     const { title, description, difficulty } = this.state
-    const { user } = this.props
+    const { user, addChallenge } = this.props
 
-    // TODO: make it work!
     axios.post('http://localhost:3001/api/challenges', {
-      title, description, difficulty, userId: user.userId
-    })
-      .then(res => {
-        console.warn('success!', res)
+      title, description, difficulty, status: 'incomplete', userId: user.userId},
+      {params: { access_token: this.props.user.id }}
+    )
+      .then(challenge => {
+        console.warn('success!', challenge)
+        this.props.addChallenge(challenge)
       })
 
     this.closeModal()
@@ -96,3 +102,14 @@ export default class ChallengeModal extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addChallenge (challenge) {
+      dispatch(setNewChallenge(challenge))
+    }
+
+  }
+}
+
+export default withRedux(createStore, null, mapDispatchToProps)(ChallengeModal)
