@@ -5,6 +5,7 @@ import axios from 'axios'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 import ChallengeModal from '../components/ChallengeModal'
+import Config from '../config/config'
 class Challenges extends React.Component {
 
   constructor (props) {
@@ -17,7 +18,7 @@ class Challenges extends React.Component {
 
   componentDidMount () {
     
-    axios.get('http://localhost:3001/api/challenges', {params: { access_token: this.props.user.id }})
+    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.user.id }})
       .then(res => {
         console.warn('hereeee', res)
         this.setState({ challenges: res.data })

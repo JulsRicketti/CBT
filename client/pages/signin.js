@@ -39,9 +39,9 @@ class SignIn extends React.Component {
     this.setState(obj)
   }
 
-  handleSignUpButton (evt) {
+  handleSignInButton (evt) {
     evt.preventDefault()
-    this.props.setTest
+
     const { email, password } = this.state
 
     authenticate(email, password)
@@ -69,7 +69,7 @@ class SignIn extends React.Component {
             onChange={(evt) => this.handleChangeForms('password', evt.target.value)}
           />
           <Divider />
-          <Button onClick={(evt) => this.handleSignUpButton(evt)}>Sign In</Button>
+          <Button onClick={(evt) => this.handleSignInButton(evt)}>Sign In</Button>
           <Link href='/signup'>New to the app? Sign up here!</Link>
         </Form>
       </Page>

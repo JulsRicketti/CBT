@@ -24,9 +24,9 @@ var
   runSequence  = require('run-sequence'),
 
   // config
-  config       = require('../config/user'),
-  tasks        = require('../config/tasks'),
-  install      = require('../config/project/install'),
+  config       = require('../config/config/user'),
+  tasks        = require('../config/config/tasks'),
+  install      = require('../config/config/project/install'),
 
   // shorthand
   globs        = config.globs,

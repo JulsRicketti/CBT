@@ -3,7 +3,7 @@ const SET_NEW_CHALLENGE = 'challenge/SET_NEW_CHALLENGE'
 
 
 const defaultState = {
-  challenges: undefined
+  challenges: []
 }
 
 export default function reducer (state = defaultState, action = {}) {

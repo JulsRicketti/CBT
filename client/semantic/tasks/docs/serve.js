@@ -25,12 +25,12 @@ var
   watch        = require('gulp-watch'),
 
   // user config
-  config       = require('../config/docs'),
+  config       = require('../config/config/docs'),
 
   // task config
-  tasks        = require('../config/tasks'),
-  configSetup  = require('../config/project/config'),
-  install      = require('../config/project/install'),
+  tasks        = require('../config/config/tasks'),
+  configSetup  = require('../config/config/project/config'),
+  install      = require('../config/config/project/install'),
 
   // shorthand
   banner       = tasks.banner,

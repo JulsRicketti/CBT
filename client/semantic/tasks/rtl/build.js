@@ -24,11 +24,11 @@ var
   uglify       = require('gulp-uglify'),
 
   // user config
-  config       = require('../config/user'),
+  config       = require('../config/config/user'),
 
   // install config
-  tasks        = require('../config/tasks'),
-  install      = require('../config/project/install'),
+  tasks        = require('../config/config/tasks'),
+  install      = require('../config/config/project/install'),
 
   // shorthand
   globs        = config.globs,

@@ -1,5 +1,6 @@
 import React from 'react'
 import Page from '../components/Page'
+import Config from '../config/config'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Label, Form, Button, Divider, Header, Input } from 'semantic-ui-react'
@@ -43,7 +44,7 @@ class SignUp extends React.Component {
     const { email, password } = this.state
 
     // user creation
-    axios.post('http://localhost:3001/api/users', { email, password })
+    axios.post(`${Config.serverUrl}/api/users`, { email, password })
       .then(res => {
         authenticate(email, password)
         .then(user => {
