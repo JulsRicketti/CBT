@@ -17,7 +17,8 @@ const {
 class SignIn extends React.Component {
 
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    logInUser: PropTypes.func.isRequired
   }
 
   constructor (props) {

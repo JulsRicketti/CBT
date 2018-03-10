@@ -8,7 +8,8 @@ import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 
 const {
-  challenge: { setNewChallenge }
+  challenge: { setNewChallenge },
+  user: { setLoggedInUser }
 } = actions
 class ChallengeModal extends React.Component {
 
@@ -107,6 +108,10 @@ class ChallengeModal extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setLoggedInUser (user) {
+      // TODO: automatically set up the logged in user
+      dispatch(setLoggedInUser(user))
+    },
     addChallenge (challenge) {
       dispatch(setNewChallenge(challenge))
     }

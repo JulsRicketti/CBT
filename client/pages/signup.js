@@ -48,6 +48,7 @@ class SignUp extends React.Component {
       .then(res => {
         authenticate(email, password)
         .then(user => {
+          window.USER = user
           this.props.logInUser(user.data)
         })
       })

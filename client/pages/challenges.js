@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Page from '../components/Page'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
 import axios from 'axios'
@@ -7,6 +8,10 @@ import { createStore, actions } from '../store'
 import ChallengeModal from '../components/ChallengeModal'
 import Config from '../config/config'
 class Challenges extends React.Component {
+
+  static propTypes = {
+    user: PropTypes.object.isRequired
+  }
 
   constructor (props) {
     super(props)
@@ -17,10 +22,8 @@ class Challenges extends React.Component {
   }
 
   componentDidMount () {
-    
     axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.user.id }})
       .then(res => {
-        console.warn('hereeee', res)
         this.setState({ challenges: res.data })
       })
   }
@@ -80,7 +83,7 @@ class Challenges extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.loggedInUser
+    user: state.user.loggedInUser || {}
   }
 }
 
