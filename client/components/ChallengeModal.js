@@ -14,7 +14,7 @@ const {
 class ChallengeModal extends React.Component {
 
   static propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -25,6 +25,12 @@ class ChallengeModal extends React.Component {
       title: '',
       description: '',
       difficulty: 0
+    }
+  }
+
+  componentWillMount () {
+    if (typeof localStorage !== 'undefined') {
+      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'))
     }
   }
 
@@ -45,8 +51,8 @@ class ChallengeModal extends React.Component {
     const { user, addChallenge } = this.props
 
     axios.post(`${Config.serverUrl}/api/challenges`, {
-      title, description, difficulty, status: 'incomplete', userId: user.userId},
-      {params: { access_token: this.props.user.id }}
+      title, description, difficulty, status: 'incomplete', userId: user},
+      {params: { access_token: this.props.user }}
     )
       .then(challenge => {
         console.warn('success!', challenge)
@@ -66,7 +72,6 @@ class ChallengeModal extends React.Component {
   }
 
   render() {
-    console.warn('user (challengeModal)', this.props.user)
     const {
       title,
       description,
@@ -108,9 +113,9 @@ class ChallengeModal extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLoggedInUser (user) {
+    setLoggedInUser (userId) {
       // TODO: automatically set up the logged in user
-      dispatch(setLoggedInUser(user))
+      dispatch(setLoggedInUser(userId))
     },
     addChallenge (challenge) {
       dispatch(setNewChallenge(challenge))

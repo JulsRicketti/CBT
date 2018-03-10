@@ -13,7 +13,13 @@ const {
 
 class Navbar extends React.Component {
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.string
+  }
+
+  componentWillMount () {
+    if (typeof localStorage !== 'undefined') {
+      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'))
+    }
   }
 
   handleLogout () {

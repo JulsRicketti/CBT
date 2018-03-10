@@ -7,10 +7,15 @@ import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 import ChallengeModal from '../components/ChallengeModal'
 import Config from '../config/config'
+
+const {
+  challenge: { setNewChallenge },
+  user: { setLoggedInUser }
+} = actions
 class Challenges extends React.Component {
 
   static propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -21,8 +26,16 @@ class Challenges extends React.Component {
     }
   }
 
+  componentWillMount() {
+    if (typeof localStorage !== 'undefined') {
+      console.log('localStorage', localStorage.getItem('loggedInUserId'))
+      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'))
+    }
+  }
+
   componentDidMount () {
-    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.user.id }})
+    console.log('this.props.user', this.props.user)
+    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.user }})
       .then(res => {
         this.setState({ challenges: res.data })
       })
@@ -83,13 +96,17 @@ class Challenges extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.loggedInUser || {}
+    user: state.user.loggedInUser || ''
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    setLoggedInUser (userId) {
+      // TODO: automatically set up the logged in user
+      console.log('userId', userId)
+      dispatch(setLoggedInUser(userId))
+    }
   }
 }
 
