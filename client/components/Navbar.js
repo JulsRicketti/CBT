@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Menu, Segment, Icon, Button } from 'semantic-ui-react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { actions } from '../store'
 import { connect } from 'react-redux'
 import unauthenticate from '../lib/unauthenticate'
@@ -13,16 +14,6 @@ const {
 class Navbar extends React.Component {
   static propTypes = {
     user: PropTypes.object
-  }
-
-  componentWillMount () {
-    if (typeof localStorage !== 'undefined') {
-      try {
-        this.props.setLoggedInUser()
-      } catch (e) {
-        // do nothing
-      }
-    }
   }
 
   handleLogout () {
@@ -40,13 +31,17 @@ class Navbar extends React.Component {
 
           <Menu.Menu position='right'>
             <Menu.Item name=''/>
-            <Link href='/challenges'><Menu.Item name='Challenges' active={pathname === '/challenges'} /></Link>
-            <Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} /></Link>
-            <Menu.Item>
-              <Link href='/new_thought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
-            </Menu.Item>
-            {this.props.user ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <Link href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></Link>}
-            {this.props.user ? null : <Link href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></Link>}
+            {user ? <Link href='/challenges'><Menu.Item name='Challenges' active={pathname === '/challenges'} /></Link> : null}
+            {user ? <Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} /></Link> : null}
+            {
+              user 
+                ?<Menu.Item>
+                  <Link href='/new_thought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
+                </Menu.Item>
+                : null
+            }
+            {user ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <Link href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></Link>}
+            {user ? null : <Link href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></Link>}
           </Menu.Menu>
         </Menu>
       </Segment>
@@ -62,11 +57,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLoggedInUser () {
+    setLoggedInUser (user) {
       // TODO: automatically set up the logged in user
+      dispatch(setLoggedInUser(user))
     },
     unsetLoggedInUser () {
       dispatch(setLoggedInUser(null))
+      Router.push('/') // go to the home page
     }
   }
 }
