@@ -84,11 +84,12 @@ class Challenges extends React.Component {
       {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
 
-    if (!this.props.user) {
-      // TODO: make this appropriately centered!
+    if (this.props.user) {
       return (
         <Page>
-          <ClipLoader />
+          <Grid centered>
+            <ClipLoader />
+          </Grid>
         </Page>
       )
     }
