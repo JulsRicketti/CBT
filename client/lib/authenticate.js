@@ -7,7 +7,7 @@ export default function authenticate (email, password) {
     .then(res => {
       console.log('in authenticate:', res.data)
       const token = res.data.id
-      localStorage.setItem('jwtToken', token)
+      localStorage.setItem('accessToken', token)
       localStorage.setItem('loggedInUserId', JSON.stringify(res.data.userId))
       return res
     })

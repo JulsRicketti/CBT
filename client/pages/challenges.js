@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ClipLoader } from 'react-spinners';
 import Page from '../components/Page'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
 import axios from 'axios'
@@ -10,12 +11,13 @@ import Config from '../config/config'
 
 const {
   challenge: { setNewChallenge },
-  user: { setLoggedInUser }
+  user: { setLoggedInUser, setAccessToken }
 } = actions
 class Challenges extends React.Component {
 
   static propTypes = {
-    user: PropTypes.string.isRequired
+    user: PropTypes.string.isRequired,
+    accessToken: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -28,17 +30,19 @@ class Challenges extends React.Component {
 
   componentWillMount() {
     if (typeof localStorage !== 'undefined') {
-      console.log('localStorage', localStorage.getItem('loggedInUserId'))
-      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'))
+      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
     }
   }
 
   componentDidMount () {
-    console.log('this.props.user', this.props.user)
-    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.user }})
+    console.table(this.props)
+    if (!this.props.accessToken) return
+    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.accessToken }})
       .then(res => {
+        console.log('Challenges', res)
         this.setState({ challenges: res.data })
       })
+      .catch(err => console.log(err))
   }
 
   renderChallenges (status) {
@@ -48,6 +52,7 @@ class Challenges extends React.Component {
         ? <Label color='teal' tag>{status}</Label>
         : <Label color='red' tag>{status}</Label>
     )
+
     return (
       <div>
       {
@@ -79,6 +84,15 @@ class Challenges extends React.Component {
       {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
 
+    if (!this.props.user) {
+      // TODO: make this appropriately centered!
+      return (
+        <Page>
+          <ClipLoader />
+        </Page>
+      )
+    }
+
     return (
       <Page pathname={pathname}>
         <h1>Challenges</h1>
@@ -86,7 +100,7 @@ class Challenges extends React.Component {
           come in direct contact with their fears, register and observe how they felt,
           how they reacted and the results of their challenges.
         </h4>
-        <ChallengeModal user={this.props.user}/>
+        <ChallengeModal user={this.props.user} accessToken={this.props.accessToken}/>
         <Divider/>
         <Tab panes={panes}/>
       </Page>
@@ -96,16 +110,19 @@ class Challenges extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.loggedInUser || ''
+    user:  state.user.loggedInUser,
+    accessToken: state.user.accessToken
+    
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLoggedInUser (userId) {
+    setLoggedInUser: (userId, accessToken) => {
+      console.log('setLoggedInUser', this)
       // TODO: automatically set up the logged in user
-      console.log('userId', userId)
       dispatch(setLoggedInUser(userId))
+      dispatch(setAccessToken(accessToken))
     }
   }
 }

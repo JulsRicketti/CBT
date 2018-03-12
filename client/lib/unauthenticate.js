@@ -1,4 +1,4 @@
 export default function unauthenticate () {
-  localStorage.removeItem('jwtToken')
+  localStorage.removeItem('accessToken')
   localStorage.removeItem('loggedInUserId')
 }

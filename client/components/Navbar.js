@@ -18,7 +18,7 @@ class Navbar extends React.Component {
 
   componentWillMount () {
     if (typeof localStorage !== 'undefined') {
-      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'))
+      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
     }
   }
 
