@@ -17,7 +17,8 @@ class Challenges extends React.Component {
 
   static propTypes = {
     user: PropTypes.string.isRequired,
-    accessToken: PropTypes.string.isRequired
+    accessToken: PropTypes.string.isRequired,
+    challenge: PropTypes.array.isRequired
   }
 
   constructor (props) {
@@ -37,7 +38,7 @@ class Challenges extends React.Component {
   componentDidMount () {
     console.table(this.props)
     if (!this.props.accessToken) return
-    axios.get(`${Config.serverUrl}/api/challenges`, {params: { access_token: this.props.accessToken }})
+    axios.get(`${Config.serverUrl}/challenges`, {params: { access_token: this.props.accessToken }})
       .then(res => {
         console.log('Challenges', res)
         this.setState({ challenges: res.data })
@@ -84,7 +85,7 @@ class Challenges extends React.Component {
       {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
     ]
 
-    if (this.props.user) {
+    if (!this.props.user) {
       return (
         <Page>
           <Grid centered>
@@ -112,7 +113,8 @@ class Challenges extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user:  state.user.loggedInUser,
-    accessToken: state.user.accessToken
+    accessToken: state.user.accessToken,
+    challenges: state.challenge.challenges
     
   }
 }

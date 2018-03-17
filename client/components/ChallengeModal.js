@@ -51,7 +51,7 @@ class ChallengeModal extends React.Component {
     const { title, description, difficulty } = this.state
     const { user, accessToken, addChallenge } = this.props
 
-    axios.post(`${Config.serverUrl}/api/challenges`, {
+    axios.post(`${Config.serverUrl}/challenges`, {
       title, description, difficulty, status: 'incomplete', userId: user},
       {params: { access_token: accessToken }}
     )

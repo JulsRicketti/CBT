@@ -44,7 +44,7 @@ class SignUp extends React.Component {
     const { email, password } = this.state
 
     // user creation
-    axios.post(`${Config.serverUrl}/api/users`, { email, password })
+    axios.post(`${Config.serverUrl}/users`, { email, password })
       .then(res => {
         authenticate(email, password)
         .then(user => {
