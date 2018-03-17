@@ -18,14 +18,14 @@ class Challenges extends React.Component {
   static propTypes = {
     user: PropTypes.string.isRequired,
     accessToken: PropTypes.string.isRequired,
-    challenge: PropTypes.array.isRequired
+    challenges: PropTypes.array.isRequired
   }
 
   constructor (props) {
     super(props)
 
     this.state = {
-      challenges: []
+      challenges: props.challenges
     }
   }
 
@@ -36,11 +36,9 @@ class Challenges extends React.Component {
   }
 
   componentDidMount () {
-    console.table(this.props)
-    if (!this.props.accessToken) return
-    axios.get(`${Config.serverUrl}/challenges`, {params: { access_token: this.props.accessToken }})
+    if (this.props.challenges.length) return
+    axios.get(`${Config.serverUrl}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
       .then(res => {
-        console.log('Challenges', res)
         this.setState({ challenges: res.data })
       })
       .catch(err => console.log(err))
@@ -115,14 +113,12 @@ const mapStateToProps = (state) => {
     user:  state.user.loggedInUser,
     accessToken: state.user.accessToken,
     challenges: state.challenge.challenges
-    
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setLoggedInUser: (userId, accessToken) => {
-      console.log('setLoggedInUser', this)
       // TODO: automatically set up the logged in user
       dispatch(setLoggedInUser(userId))
       dispatch(setAccessToken(accessToken))
