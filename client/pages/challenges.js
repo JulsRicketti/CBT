@@ -10,7 +10,7 @@ import ChallengeModal from '../components/ChallengeModal'
 import Config from '../config/config'
 
 const {
-  challenge: { setNewChallenge },
+  challenge: { setChallenges },
   user: { setLoggedInUser, setAccessToken }
 } = actions
 class Challenges extends React.Component {
@@ -23,30 +23,23 @@ class Challenges extends React.Component {
 
   constructor (props) {
     super(props)
-
-    this.state = {
-      challenges: props.challenges
-    }
   }
 
-  componentWillMount() {
+  componentWillMount () {
+    const { challenges, setChallenges, setLoggedInUser } = this.props
+
+    if (challenges.length) return
     if (typeof localStorage !== 'undefined') {
-      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
+      setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
+      axios.get(`${Config.serverUrl}/users/${localStorage.getItem('loggedInUserId')}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
+        .then(res => {
+          setChallenges(res.data)
+        })
+        .catch(err => console.log(err))
     }
   }
 
-  componentDidMount () {
-    if (this.props.challenges.length) return
-    axios.get(`${Config.serverUrl}/users/${localStorage.getItem('loggedInUserId')}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
-      .then(res => {
-        console.log('Get challenges:', res)
-        this.setState({ challenges: res.data })
-      })
-      .catch(err => console.log(err))
-  }
-
-  renderChallenges (status) {
-    const { challenges } = this.state
+  renderChallenges (status, challenges) {
     const label = (
       status === 'complete'
         ? <Label color='teal' tag>{status}</Label>
@@ -76,15 +69,15 @@ class Challenges extends React.Component {
   }
 
   render () {
-    const { pathname } = this.props.url
-    const { showNewChallengeForm } = this.state
+    const { challenges, user, accessToken, url } = this.props
+    const { pathname } = url
 
     const panes = [
-      {menuItem: 'Incomplete Challenges', render: () => this.renderChallenges('incomplete') },
-      {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete') }
+      {menuItem: 'Incomplete Challenges', render: () => this.renderChallenges('incomplete', challenges) },
+      {menuItem: 'Complete Challenges', render: () => this.renderChallenges('complete', challenges) }
     ]
 
-    if (!this.props.user) {
+    if (!user) {
       return (
         <Page>
           <Grid centered>
@@ -101,7 +94,7 @@ class Challenges extends React.Component {
           come in direct contact with their fears, register and observe how they felt,
           how they reacted and the results of their challenges.
         </h4>
-        <ChallengeModal user={this.props.user} accessToken={this.props.accessToken}/>
+        <ChallengeModal user={user} accessToken={accessToken} challenges={challenges}/>
         <Divider/>
         <Tab panes={panes}/>
       </Page>
@@ -120,9 +113,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setLoggedInUser: (userId, accessToken) => {
-      // TODO: automatically set up the logged in user
       dispatch(setLoggedInUser(userId))
       dispatch(setAccessToken(accessToken))
+    },
+    setChallenges: (challenges) => {
+      dispatch(setChallenges(challenges))
     }
   }
 }

@@ -8,8 +8,7 @@ import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 
 const {
-  challenge: { setNewChallenge },
-  user: { setLoggedInUser }
+  challenge: { setChallenges }
 } = actions
 class ChallengeModal extends React.Component {
 
@@ -29,10 +28,12 @@ class ChallengeModal extends React.Component {
     }
   }
 
-  componentWillMount () {
-    if (typeof localStorage !== 'undefined') {
-      this.props.setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
-    }
+  resetForms () {
+    this.setState({
+      title: '',
+      description: '',
+      difficulty: 0
+    })
   }
 
   disableCreateButton () {
@@ -49,21 +50,21 @@ class ChallengeModal extends React.Component {
   handleCreateButton (evt) {
     evt.preventDefault()
     const { title, description, difficulty } = this.state
-    const { user, accessToken, addChallenge } = this.props
+    const { user, accessToken, challenges, addChallenge } = this.props
 
     axios.post(`${Config.serverUrl}/challenges`, {
       title, description, difficulty, status: 'incomplete', userId: user},
       {params: { access_token: accessToken }}
     )
-      .then(challenge => {
-        console.warn('success!', challenge)
-        this.props.addChallenge(challenge)
+      .then(newChallenge => {
+        addChallenge(challenges, newChallenge.data)
       })
 
     this.closeModal()
   }
 
   closeModal () {
+    this.resetForms()
     this.setState({ showNewChallengeForm: false })
   }
 
@@ -114,12 +115,8 @@ class ChallengeModal extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLoggedInUser (userId) {
-      // TODO: automatically set up the logged in user
-      // dispatch(setLoggedInUser(userId))
-    },
-    addChallenge (challenge) {
-      dispatch(setNewChallenge(challenge))
+    addChallenge (challengesList, newChallenge) {
+      dispatch(setChallenges(challengesList.concat(newChallenge)))
     }
 
   }
