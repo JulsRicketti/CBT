@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
 import Link from 'next/link'
-import { getUserObject } from '../lib'
+import { getUserObject } from '../api'
 
 export default class Test extends React.Component {
 

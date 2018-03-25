@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Config from '../config/config'
 import Page from '../components/Page'
-import axios from 'axios'
+import { createChallenge } from '../api'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
@@ -52,12 +52,9 @@ class ChallengeModal extends React.Component {
     const { title, description, difficulty } = this.state
     const { user, accessToken, challenges, addChallenge } = this.props
 
-    axios.post(`${Config.serverUrl}/challenges`, {
-      title, description, difficulty, status: 'incomplete', userId: user},
-      {params: { access_token: accessToken }}
-    )
+    createChallenge(user, accessToken, title, description, difficulty)
       .then(newChallenge => {
-        addChallenge(challenges, newChallenge.data)
+        addChallenge(challenges, newChallenge)
       })
 
     this.closeModal()

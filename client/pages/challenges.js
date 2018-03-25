@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { ClipLoader } from 'react-spinners';
 import Page from '../components/Page'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
-import axios from 'axios'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 import ChallengeModal from '../components/ChallengeModal'
 import Config from '../config/config'
+import { getChallenges, removeChallenge } from '../api'
 
 const {
   challenge: { setChallenges },
@@ -31,12 +31,20 @@ class Challenges extends React.Component {
     if (challenges.length) return
     if (typeof localStorage !== 'undefined') {
       setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
-      axios.get(`${Config.serverUrl}/users/${localStorage.getItem('loggedInUserId')}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
-        .then(res => {
-          setChallenges(res.data)
-        })
-        .catch(err => console.log(err))
+      getChallenges(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
+        .then(res => setChallenges(res))
     }
+  }
+
+  removeChallenge (evt, challengeId) {
+    evt.preventDefault()
+
+    const {user, accessToken, challenges, setChallenges} = this.props
+    removeChallenge(user, accessToken, challengeId, challenges)
+      .then(remainingChallenges => {
+        setChallenges(remainingChallenges)
+      })
+
   }
 
   renderChallenges (status, challenges) {
@@ -58,6 +66,9 @@ class Challenges extends React.Component {
                   <Grid.Column> {challenge.title} </Grid.Column>
                   <Grid.Column> {challenge.description} </Grid.Column>
                   <Grid.Column floated='left'> {label} </Grid.Column>
+                  <Grid.Column>
+                    <Button icon negative circular onClick={(evt) => this.removeChallenge(evt, challenge.id)}><Icon name='remove'/></Button>
+                  </Grid.Column>
                 </Grid>
               </Segment>
             </Tab.Pane>

@@ -67,7 +67,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setLoggedInUser (user) {
-      // TODO: automatically set up the logged in user
       dispatch(setLoggedInUser(user))
     },
     unsetLoggedInUser () {
