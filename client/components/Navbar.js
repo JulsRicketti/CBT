@@ -8,12 +8,15 @@ import { connect } from 'react-redux'
 import unauthenticate from '../lib/unauthenticate'
 
 const {
+  challenge: { setChallenges },
   user: { setLoggedInUser }
 } = actions
 
 class Navbar extends React.Component {
   static propTypes = {
-    user: PropTypes.string
+    user: PropTypes.string,
+    setLoggedInUser: PropTypes.func.isRequired,
+    unsetLoggedInUser: PropTypes.func.isRequired
   }
 
   componentWillMount () {
@@ -68,6 +71,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setLoggedInUser(user))
     },
     unsetLoggedInUser () {
+      dispatch(setChallenges([]))
       dispatch(setLoggedInUser(null))
       Router.push('/') // go to the home page
     }
