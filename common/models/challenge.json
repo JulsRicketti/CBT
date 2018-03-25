@@ -19,8 +19,8 @@
     },
     "status": {
       "type": "string",
-      "default": "incomplete",
-      "required": true
+      "required": true,
+      "default": "incomplete"
     }
   },
   "validations": [],
@@ -36,7 +36,8 @@
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "permission": "ALLOW"
+      "permission": "ALLOW",
+      "property": "*"
     },
     {
       "accessType": "*",

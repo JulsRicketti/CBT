@@ -37,8 +37,9 @@ class Challenges extends React.Component {
 
   componentDidMount () {
     if (this.props.challenges.length) return
-    axios.get(`${Config.serverUrl}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
+    axios.get(`${Config.serverUrl}/users/${localStorage.getItem('loggedInUserId')}/challenges`, {params: { access_token: localStorage.getItem('accessToken')}})
       .then(res => {
+        console.log('Get challenges:', res)
         this.setState({ challenges: res.data })
       })
       .catch(err => console.log(err))
