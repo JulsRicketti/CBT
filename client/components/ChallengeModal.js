@@ -127,6 +127,7 @@ class ChallengeModal extends React.Component {
               max={10}
               placeholder='Select difficulty'
               value={difficulty}
+              onFocus={(evt) => evt.target.select()}
               onChange={(evt) => this.handleChangeForms('difficulty', evt.target.value)}
             />
             <Button onClick={(evt) => this.handleCreateButton(evt)} disabled={this.disableCreateButton()}>{isUpdating ? 'Update': 'Create'}</Button>
