@@ -48,12 +48,7 @@ class Challenges extends React.Component {
   }
 
   renderChallenges (status, challenges) {
-    const label = (
-      status === 'complete'
-        ? <Label color='teal' tag>{status}</Label>
-        : <Label color='red' tag>{status}</Label>
-    )
-
+    const { user, accessToken } = this.props
     return (
       <div>
       {
@@ -63,11 +58,29 @@ class Challenges extends React.Component {
             <Tab.Pane key={key}>
               <Segment>
                 <Grid columns='equal'>
-                  <Grid.Column> {challenge.title} </Grid.Column>
+                  <Grid.Column> <h3>{challenge.difficulty}</h3> </Grid.Column>
+                  <Grid.Column> <h4>{challenge.title}</h4> </Grid.Column>
                   <Grid.Column> {challenge.description} </Grid.Column>
-                  <Grid.Column floated='left'> {label} </Grid.Column>
                   <Grid.Column>
-                    <Button icon negative circular onClick={(evt) => this.removeChallenge(evt, challenge.id)}><Icon name='remove'/></Button>
+                    <Button.Group>
+                      <ChallengeModal
+                        user={user}
+                        accessToken={accessToken}
+                        challenges={challenges}
+                        isUpdating={true}
+                        challengeId={challenge.id}
+                        difficulty={challenge.difficulty}
+                        status={challenge.status}
+                        title={challenge.title}
+                        description={challenge.description}
+                      />
+                      <Button icon negative onClick={(evt) => this.removeChallenge(evt, challenge.id)}><Icon name='remove'/></Button>
+                      {
+                        status === 'incomplete'
+                          ? <Button>Complete</Button>
+                          : null
+                      }
+                    </Button.Group>
                   </Grid.Column>
                 </Grid>
               </Segment>

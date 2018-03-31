@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Config from '../config/config'
-import Page from '../components/Page'
-import { createChallenge } from '../api'
+import { createChallenge, updateChallenge } from '../api'
 import { Form, Segment, Tab, Button, Icon, Modal, Divider, Label, Grid } from 'semantic-ui-react'
 import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
@@ -14,7 +12,14 @@ class ChallengeModal extends React.Component {
 
   static propTypes = {
     user: PropTypes.string.isRequired,
-    accessToken: PropTypes.string.isRequired
+    accessToken: PropTypes.string.isRequired,
+    isUpdating: PropTypes.bool,
+    challenges: PropTypes.array,
+    challengeId: PropTypes.number,
+    difficulty: PropTypes.number,
+    status: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string
   }
 
   constructor (props) {
@@ -22,9 +27,10 @@ class ChallengeModal extends React.Component {
     
     this.state = {
       showNewChallengeForm: false,
-      title: '',
-      description: '',
-      difficulty: 0
+      title: props.title || '',
+      description: props.description || '',
+      difficulty: props.difficulty || 0,
+      challengeId: props.challengeId || ''
     }
   }
 
@@ -50,12 +56,19 @@ class ChallengeModal extends React.Component {
   handleCreateButton (evt) {
     evt.preventDefault()
     const { title, description, difficulty } = this.state
-    const { user, accessToken, challenges, addChallenge } = this.props
+    const { user, accessToken, challenges, addChallenge, updateChallenges, challengeId, status, isUpdating } = this.props
 
-    createChallenge(user, accessToken, title, description, difficulty)
-      .then(newChallenge => {
-        addChallenge(challenges, newChallenge)
-      })
+    if (isUpdating) {
+      updateChallenge(user, accessToken, challengeId, title, description, difficulty, status)
+        .then(updatedChallenge => {
+          updateChallenges(challenges, updatedChallenge)
+        })
+    } else {
+      createChallenge(user, accessToken, title, description, difficulty)
+        .then(newChallenge => {
+          addChallenge(challenges, newChallenge)
+        })
+    }
 
     this.closeModal()
   }
@@ -78,9 +91,23 @@ class ChallengeModal extends React.Component {
       showNewChallengeForm
     } = this.state
 
+    const { isUpdating } = this.props
+
+    const modalTrigger = (
+      isUpdating
+        ? <Button onClick={() => this.setState({showNewChallengeForm: true})}>Update</Button>
+        : <Button onClick={() => this.setState({showNewChallengeForm: true})}><Icon className='plus'/>New Challenge</Button>
+    )
+
+    const modalHeader = (
+      isUpdating
+        ? 'Update Challenge'
+        : 'New Challenge'
+    )
+
     return (
-      <Modal closeIcon onClose={() => this.closeModal()} open={showNewChallengeForm} trigger={<Button onClick={() => this.setState({showNewChallengeForm: true})}><Icon className='plus'/>New Challenge</Button>}>
-        <Modal.Header>New Challenge</Modal.Header>
+      <Modal closeIcon onClose={() => this.closeModal()} open={showNewChallengeForm} trigger={modalTrigger}>
+        <Modal.Header>{modalHeader}</Modal.Header>
         <Modal.Content>
           <Form>
             <Form.Input
@@ -102,7 +129,7 @@ class ChallengeModal extends React.Component {
               value={difficulty}
               onChange={(evt) => this.handleChangeForms('difficulty', evt.target.value)}
             />
-            <Button onClick={(evt) => this.handleCreateButton(evt)} disabled={this.disableCreateButton()}>Create</Button>
+            <Button onClick={(evt) => this.handleCreateButton(evt)} disabled={this.disableCreateButton()}>{isUpdating ? 'Update': 'Create'}</Button>
           </Form>
         </Modal.Content>
       </Modal>
@@ -114,6 +141,16 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addChallenge (challengesList, newChallenge) {
       dispatch(setChallenges(challengesList.concat(newChallenge)))
+    },
+    updateChallenges (challengeList, updatedChallenge) {
+      const updatedChallengeList = challengeList.map(x => {
+        let challenge = {...x}
+        if (challenge.id === updatedChallenge.id) {
+          challenge = updatedChallenge
+        }
+        return challenge
+      })
+      dispatch(setChallenges(updatedChallengeList))
     }
 
   }
