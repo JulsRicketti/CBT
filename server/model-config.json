@@ -43,5 +43,13 @@
   "challenge": {
     "dataSource": "db",
     "public": true
+  },
+  "thought": {
+    "dataSource": "db",
+    "public": true
+  },
+  "negativeFeeling": {
+    "dataSource": "db",
+    "public": true
   }
 }
