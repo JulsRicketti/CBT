@@ -54,7 +54,7 @@ class NewThought extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { setLoggedInUser } = this.props
     if (typeof localStorage !== 'undefined') {
       console.table({userId: localStorage.getItem('loggedInUserId'), accessToken: localStorage.getItem('accessToken')})

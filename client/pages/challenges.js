@@ -25,7 +25,7 @@ class Challenges extends React.Component {
     super(props)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { challenges, setChallenges, setLoggedInUser } = this.props
 
     if (challenges.length) return

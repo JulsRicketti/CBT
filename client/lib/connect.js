@@ -17,14 +17,14 @@ function createConnect (mapStoreToProps, store) {
         super(props, context)
       }
 
-      componentWillMount () {
+      componentDidMount () {
         this.sub = store.subscribe(() => {
           updateStoreView(this.props)
           this.forceUpdate()
         })
       }
 
-      componentWillUpdate () {
+      componentDidUpdate () {
         updateStoreView(this.props)
       }
 
