@@ -11,6 +11,7 @@ import {
   Checkbox
 } from 'semantic-ui-react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { createThought, updateThought } from '../api'
 import { feelingList, thinkingErrors } from '../lib'
 
@@ -305,12 +306,11 @@ class NewThought extends React.Component {
 
   onClickFinish () {
     const { user, accessToken, setNewThought, thoughts, setUpdatedThought, currentThought } = this.props
-    // const { supportingEvidence, nonSupportingEvidence, thinkingErrors, newBelief, strengthFinal } = this.state
     const { deconstruction } = this.state
   
     updateThought(user, accessToken, currentThought.id, deconstruction)
         .then((updatedThought) => {
-          setUpdatedThought(thoughts, updatedThought)
+          setUpdatedThought(thoughts, updatedThought, true) // now that this is finished, redirect!
         })
   }
 
@@ -362,8 +362,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setCurrentThought(newThought))
       dispatch(setThoughts(thoughtsList.concat(newThought)))
     },
-    setUpdatedThought: (thoughtsList, updatedThought) => {
-      console.warn('thoughtsList', thoughtsList)
+    setUpdatedThought: (thoughtsList, updatedThought, redirect = false) => {
       const updatedThoughtList = thoughtsList.map(x => {
         let thought = {...x}
         if (thought.id === updatedThought.id) {
@@ -372,6 +371,10 @@ const mapDispatchToProps = (dispatch) => {
         return thought
       })
       dispatch(setThoughts(updatedThoughtList))
+
+      if (redirect) {
+        Router.push('/')
+      }
     }
   }
 }
