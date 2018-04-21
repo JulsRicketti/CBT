@@ -64,7 +64,6 @@ class NewThought extends React.Component {
   componentDidMount () {
     const { setLoggedInUser } = this.props
     if (typeof localStorage !== 'undefined') {
-      console.table({userId: localStorage.getItem('loggedInUserId'), accessToken: localStorage.getItem('accessToken')})
       setLoggedInUser(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
     }
   }
@@ -268,7 +267,6 @@ class NewThought extends React.Component {
   onClickPrevious () {
     const { user, accessToken, currentThought } = this.props
     const { currentStep, feelingDescription, deconstruction } = this.state
-    console.warn('desconstruction', deconstruction)
     const next = currentStep === 'feelingDescription'
     ? 'situationDescription' :
     'feelingDescription'
