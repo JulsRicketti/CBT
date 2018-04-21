@@ -18,14 +18,19 @@ import withRedux from 'next-redux-wrapper'
 import { createStore, actions } from '../store'
 
 const {
-  user: { setLoggedInUser, setAccessToken }
+  user: { setLoggedInUser, setAccessToken },
+  thought: { setThoughts, setCurrentThought }
 } = actions
 
 class NewThought extends React.Component {
   static propTypes = {
     user: PropTypes.string.isRequired,
     accessToken: PropTypes.string.isRequired,
-    setLoggedInUser: PropTypes.func.isR
+    setLoggedInUser: PropTypes.func.isRequired,
+    thoughts: PropTypes.array.isRequired,
+    setNewThought: PropTypes.func.isRequired,
+    setUpdatedThought: PropTypes.func.isRequired,
+    currentThought: PropTypes.object.isRequired
   }
 
   constructor (props) {
@@ -33,6 +38,7 @@ class NewThought extends React.Component {
 
     this.state = {
       currentStep: 'situationDescription',
+      isUpdating: Object.keys(props.currentThought).length > 0,
       situationDescription : {
         date: '',
         where: '',
@@ -259,7 +265,7 @@ class NewThought extends React.Component {
   }
 
   onClickPrevious () {
-    const { user, accessToken } = this.props
+    const { user, accessToken, currentThought } = this.props
     const { currentStep, feelingDescription, deconstruction } = this.state
     console.warn('desconstruction', deconstruction)
     const next = currentStep === 'feelingDescription'
@@ -269,13 +275,13 @@ class NewThought extends React.Component {
     const updateObject = currentStep === 'feelingDescription' ? {...feelingDescription} : {...deconstruction}
 
     // TODO: fix the acquiring of the thoughtId
-    updateThought(user, accessToken, 1, updateObject)
+    updateThought(user, accessToken, currentThought.id, updateObject)
 
     // this.setState({currentStep: next})
   }
 
   onClickNext () {
-    const { user, accessToken } = this.props
+    const { user, accessToken, setNewThought, thoughts, setUpdatedThought, currentThought } = this.props
     const { currentStep, situationDescription, feelingDescription } = this.state
     const next = currentStep === 'feelingDescription'
     ? 'deconstruction' :
@@ -284,12 +290,28 @@ class NewThought extends React.Component {
     if (next === 'feelingDescription') {
       const { date, where, what, expectation, reality } = situationDescription
       createThought(user, accessToken, date, where, what, expectation, reality)
+        .then((newThought) => {
+          setNewThought(thoughts, newThought)
+        })
     } else {
       const { strengthInitial, automaticThought} = feelingDescription
-      // TODO: fix the acquiring of the thoughtId
-      updateThought(user, accessToken, 1, feelingDescription)
+      updateThought(user, accessToken, currentThought.id, feelingDescription)
+        .then((updatedThought) => {
+          setUpdatedThought(thoughts, updatedThought)
+        })
     }
     this.setState({currentStep: next})
+  }
+
+  onClickFinish () {
+    const { user, accessToken, setNewThought, thoughts, setUpdatedThought, currentThought } = this.props
+    // const { supportingEvidence, nonSupportingEvidence, thinkingErrors, newBelief, strengthFinal } = this.state
+    const { deconstruction } = this.state
+  
+    updateThought(user, accessToken, currentThought.id, deconstruction)
+        .then((updatedThought) => {
+          setUpdatedThought(thoughts, updatedThought)
+        })
   }
 
   renderButtons () {
@@ -298,9 +320,9 @@ class NewThought extends React.Component {
     const showPrevious = currentStep === 'feelingDescription' || currentStep === 'deconstruction'
     return (
       <div>
-        {showPrevious ? <Button onClick={()=>this.onClickPrevious()}>Previous</Button> : null}
-        {showNext ? <Button onClick={()=>this.onClickNext()}>Next</Button> : null}
-        {currentStep === 'deconstruction' ? <Link href='/'><Button color='black'>Finish</Button></Link> : null}
+        {showPrevious ? <Button onClick={() => this.onClickPrevious()}>Previous</Button> : null}
+        {showNext ? <Button onClick={() => this.onClickNext()}>Next</Button> : null}
+        {currentStep === 'deconstruction' ? <Button color='black' onClick={() => this.onClickFinish()}>Finish</Button> : null}
       </div>
     )
   }
@@ -325,6 +347,8 @@ const mapStateToProps = (state) => {
   return {
     user:  state.user.loggedInUser,
     accessToken: state.user.accessToken,
+    thoughts: state.thought.thoughts,
+    currentThought: state.thought.currentThought
   }
 }
 
@@ -333,6 +357,21 @@ const mapDispatchToProps = (dispatch) => {
     setLoggedInUser: (userId, accessToken) => {
       dispatch(setLoggedInUser(userId))
       dispatch(setAccessToken(accessToken))
+    },
+    setNewThought: (thoughtsList, newThought) => {
+      dispatch(setCurrentThought(newThought))
+      dispatch(setThoughts(thoughtsList.concat(newThought)))
+    },
+    setUpdatedThought: (thoughtsList, updatedThought) => {
+      console.warn('thoughtsList', thoughtsList)
+      const updatedThoughtList = thoughtsList.map(x => {
+        let thought = {...x}
+        if (thought.id === updatedThought.id) {
+          thought = updatedThought
+        }
+        return thought
+      })
+      dispatch(setThoughts(updatedThoughtList))
     }
   }
 }
