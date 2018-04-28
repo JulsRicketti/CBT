@@ -273,7 +273,6 @@ class NewThought extends React.Component {
 
     const updateObject = currentStep === 'feelingDescription' ? {...feelingDescription} : {...deconstruction}
 
-    // TODO: fix the acquiring of the thoughtId
     updateThought(user, accessToken, currentThought.id, updateObject)
 
     // this.setState({currentStep: next})
