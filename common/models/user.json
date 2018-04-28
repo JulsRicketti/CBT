@@ -21,6 +21,15 @@
       "options": {
         "disableInclude": true
       }
+    },
+    "thoughts": {
+      "type": "hasMany",
+      "model": "thought",
+      "foreignKey": "userId",
+      "primaryKey": "id",
+      "options": {
+        "disableInclude": true
+      }
     }
   },
   "acls": [
