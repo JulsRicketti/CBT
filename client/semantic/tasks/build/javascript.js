@@ -20,9 +20,9 @@ var
   uglify       = require('gulp-uglify'),
 
   // config
-  config       = require('../config/config/user'),
-  tasks        = require('../config/config/tasks'),
-  install      = require('../config/config/project/install'),
+  config       = require('../config/user'),
+  tasks        = require('../config/tasks'),
+  install      = require('../config/project/install'),
 
   // shorthand
   globs        = config.globs,

@@ -26,12 +26,12 @@ var
   uglify       = require('gulp-uglify'),
 
   // user config
-  config       = require('../config/config/docs'),
+  config       = require('../config/docs'),
 
   // install config
-  tasks        = require('../config/config/tasks'),
-  configSetup  = require('../config/config/project/config'),
-  install      = require('../config/config/project/install'),
+  tasks        = require('../config/tasks'),
+  configSetup  = require('../config/project/config'),
+  install      = require('../config/project/install'),
 
   // metadata parsing
   metadata     = require('./metadata'),

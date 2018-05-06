@@ -32,9 +32,9 @@ var
   tap             = require('gulp-tap'),
 
   // config
-  config          = require('../../config/config/user'),
-  release         = require('../../config/config/admin/release'),
-  project         = require('../../config/config/project/release'),
+  config          = require('../../config/user'),
+  release         = require('../../config/admin/release'),
+  project         = require('../../config/project/release'),
 
   // shorthand
   version         = project.version,
