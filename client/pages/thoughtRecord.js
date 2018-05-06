@@ -19,14 +19,6 @@ class ThoughtRecord extends React.Component {
     thoughts: PropTypes.array.isRequired
   }
 
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      thoughts: props.thoughts
-    }
-  }
-
   componentDidMount () {
     const { setLoggedInUser, setThoughts, thoughts } = this.props
     if (typeof localStorage !== 'undefined') {
@@ -35,17 +27,24 @@ class ThoughtRecord extends React.Component {
       if(!thoughts || !thoughts.length) {
         getThoughts(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
         .then(res => {
-          console.log('thoughts after promise', res)
-          this.setState({thoughts: res})
           setThoughts(res)
         })
     }
     }
   }
 
+  shouldComponentUpdate (nextProps) {
+    return (
+      this.props.user != nextProps.user ||
+      this.props.accessToken != nextProps.accessToken ||
+      this.props.thoughts !== nextProps.thoughts
+    )
+  }
+
   render () {
-    const { thoughts } = this.state
-    const { pathname } = this.props.url
+    const { user, accessToken, thoughts, url } = this.props
+    const { pathname } = url
+
     const noThoughtsMessage = (
       <div>
         <h4>No thoughts currently registered</h4>
@@ -57,7 +56,7 @@ class ThoughtRecord extends React.Component {
         <h1>Thought Record</h1>
         {
           thoughts.length
-            ? <ThoughtsList thoughts={thoughts}/>
+            ? <ThoughtsList thoughts={thoughts} user={user} accessToken={accessToken}/>
             : noThoughtsMessage
         }
       </Page>

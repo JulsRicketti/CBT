@@ -1,10 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Icon } from 'semantic-ui-react'
+import withRedux from 'next-redux-wrapper'
+import { removeThought } from '../api'
+import { createStore, actions } from '../store'
 
-export default class ThoughtsList extends React.Component {
+const {
+  thought: { setThoughts }
+} = actions
+
+class ThoughtsList extends React.Component {
   static propTypes = {
+    user: PropTypes.string.isRequired,
+    accessToken: PropTypes.string.isRequired,
     thoughts: PropTypes.array.isRequired
+  }
+
+  removeThought (thoughtId) {
+    const { user, accessToken, thoughts, setThoughts } = this.props
+
+    removeThought(user, accessToken, thoughtId, thoughts)
+      .then((remainingThoughts) => { setThoughts(remainingThoughts) })
   }
 
   render () {
@@ -31,7 +47,7 @@ export default class ThoughtsList extends React.Component {
                   <Table.Cell>
                     <Button>View</Button>
                     <Button>Edit</Button>
-                    <Button icon negative title='Remove'><Icon name='remove'/></Button>
+                    <Button icon negative title='Remove' onClick={() => this.removeThought(thought.id)}><Icon name='remove'/></Button>
                   </Table.Cell>
                 </Table.Row>
               )
@@ -42,3 +58,13 @@ export default class ThoughtsList extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+   setThoughts (thoughts) {
+     dispatch(setThoughts(thoughts))
+   }
+  }
+}
+
+export default withRedux(createStore, null, mapDispatchToProps)(ThoughtsList)
