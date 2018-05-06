@@ -59,7 +59,8 @@ class ChallengeModal extends React.Component {
     const { user, accessToken, challenges, addChallenge, updateChallenges, challengeId, status, isUpdating } = this.props
 
     if (isUpdating) {
-      updateChallenge(user, accessToken, challengeId, title, description, difficulty, status)
+
+      updateChallenge(user, accessToken, challengeId, {title, description, difficulty, status})
         .then(updatedChallenge => {
           updateChallenges(challenges, updatedChallenge)
         })
