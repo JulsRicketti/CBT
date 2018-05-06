@@ -21,10 +21,6 @@ class Challenges extends React.Component {
     challenges: PropTypes.array.isRequired
   }
 
-  constructor (props) {
-    super(props)
-  }
-
   componentDidMount () {
     const { challenges, setChallenges, setLoggedInUser } = this.props
 
@@ -34,6 +30,14 @@ class Challenges extends React.Component {
       getChallenges(localStorage.getItem('loggedInUserId'), localStorage.getItem('accessToken'))
         .then(res => setChallenges(res))
     }
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return (
+      this.props.user !== nextProps.user ||
+      this.props.accessToken !== nextProps.accessToken ||
+      this.props.challenges !== nextProps.challenges
+    )
   }
 
   removeChallenge (evt, challengeId) {
