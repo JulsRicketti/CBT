@@ -9,6 +9,7 @@ export default class ThoughtsList extends React.Component {
 
   render () {
     const { thoughts } = this.props
+
     return (
       <Table celled striped compact>
         <Table.Header>

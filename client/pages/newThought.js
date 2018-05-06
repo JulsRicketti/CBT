@@ -121,6 +121,7 @@ class NewThought extends React.Component {
     // then set the state
     const { currentStep } = this.state
     const obj = Object.assign({}, this.state)
+    console.warn('value', value)
     obj[currentStep][target] = value
     this.setState(obj)
   }

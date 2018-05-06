@@ -15,7 +15,7 @@ export default class Test extends React.Component {
         <h1>Cognitive Behavioural Therapy</h1>
         <h3>Sometimes all it takes is understanding your own thought process.</h3>
         <p>TODO: summary of previous activities and perhaps achievements</p>
-        <Link href='/new_thought'><Button className='primary'>New Thought</Button></Link>
+        <Link href='/newThought'><Button className='primary'>New Thought</Button></Link>
         <Button onClick={() => this.handleTestClick()}>test button</Button>
       </div>
     )

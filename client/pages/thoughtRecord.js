@@ -49,7 +49,7 @@ class ThoughtRecord extends React.Component {
     const noThoughtsMessage = (
       <div>
         <h4>No thoughts currently registered</h4>
-        <p>For registering an uncomfortable thought or feeling, go to the <Link href='/new_thought'>New Thought section</Link>.</p>
+        <p>For registering an uncomfortable thought or feeling, go to the <Link href='/newThought'>New Thought section</Link>.</p>
       </div>
     )
     return (

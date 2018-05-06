@@ -41,11 +41,11 @@ class Navbar extends React.Component {
           <Menu.Menu position='right'>
             <Menu.Item name=''/>
             {user ? <Link href='/challenges'><Menu.Item name='Challenges' active={pathname === '/challenges'} /></Link> : null}
-            {user ? <Link href='/thought_record'><Menu.Item name='Thought Record' active={pathname === '/thought_record'} /></Link> : null}
+            {user ? <Link href='/thoughtRecord'><Menu.Item name='Thought Record' active={pathname === '/thoughtRecord'} /></Link> : null}
             {
               user 
                 ?<Menu.Item>
-                  <Link href='/new_thought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
+                  <Link href='/newThought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
                 </Menu.Item>
                 : null
             }
