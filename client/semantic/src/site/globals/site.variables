@@ -15,7 +15,7 @@
 /*-------------------
     Brand Colors
 --------------------*/
-@brand 				: #10a2a2;
+@brand 				: #008fb3;
 @brand-yellow		: #ffd803;
 @brand-blue			: #123123;
 

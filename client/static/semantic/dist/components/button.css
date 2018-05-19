@@ -20,7 +20,7 @@
   outline: none;
   border: none;
   vertical-align: baseline;
-  background: #10a2a2 none;
+  background: #008fb3 none;
   color: #fff;
   font-family: 'Quattrocento Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   margin: 0em 0.25em 0em 0em;
@@ -3267,7 +3267,7 @@
 
 .ui.primary.buttons .button,
 .ui.primary.button {
-  background-color: #10a2a2;
+  background-color: #008fb3;
   color: #FFFFFF;
   text-shadow: none;
   background-image: none;
@@ -3278,19 +3278,19 @@
 }
 .ui.primary.buttons .button:hover,
 .ui.primary.button:hover {
-  background-color: #079191;
+  background-color: #007b9a;
   color: #FFFFFF;
   text-shadow: none;
 }
 .ui.primary.buttons .button:focus,
 .ui.primary.button:focus {
-  background-color: #018888;
+  background-color: #006e8a;
   color: #FFFFFF;
   text-shadow: none;
 }
 .ui.primary.buttons .button:active,
 .ui.primary.button:active {
-  background-color: #0b7474;
+  background-color: #006680;
   color: #FFFFFF;
   text-shadow: none;
 }
@@ -3298,7 +3298,7 @@
 .ui.primary.buttons .active.button:active,
 .ui.primary.active.button,
 .ui.primary.button .active.button:active {
-  background-color: #049494;
+  background-color: #007b9a;
   color: #FFFFFF;
   text-shadow: none;
 }
@@ -3306,36 +3306,36 @@
 /* Basic */
 .ui.basic.primary.buttons .button,
 .ui.basic.primary.button {
-  -webkit-box-shadow: 0px 0px 0px 1px #10a2a2 inset !important;
-          box-shadow: 0px 0px 0px 1px #10a2a2 inset !important;
-  color: #10a2a2 !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #008fb3 inset !important;
+          box-shadow: 0px 0px 0px 1px #008fb3 inset !important;
+  color: #008fb3 !important;
 }
 .ui.basic.primary.buttons .button:hover,
 .ui.basic.primary.button:hover {
   background: transparent !important;
-  -webkit-box-shadow: 0px 0px 0px 1px #079191 inset !important;
-          box-shadow: 0px 0px 0px 1px #079191 inset !important;
-  color: #079191 !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #007b9a inset !important;
+          box-shadow: 0px 0px 0px 1px #007b9a inset !important;
+  color: #007b9a !important;
 }
 .ui.basic.primary.buttons .button:focus,
 .ui.basic.primary.button:focus {
   background: transparent !important;
-  -webkit-box-shadow: 0px 0px 0px 1px #018888 inset !important;
-          box-shadow: 0px 0px 0px 1px #018888 inset !important;
-  color: #079191 !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #006e8a inset !important;
+          box-shadow: 0px 0px 0px 1px #006e8a inset !important;
+  color: #007b9a !important;
 }
 .ui.basic.primary.buttons .active.button,
 .ui.basic.primary.active.button {
   background: transparent !important;
-  -webkit-box-shadow: 0px 0px 0px 1px #049494 inset !important;
-          box-shadow: 0px 0px 0px 1px #049494 inset !important;
-  color: #0b7474 !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #007b9a inset !important;
+          box-shadow: 0px 0px 0px 1px #007b9a inset !important;
+  color: #006680 !important;
 }
 .ui.basic.primary.buttons .button:active,
 .ui.basic.primary.button:active {
-  -webkit-box-shadow: 0px 0px 0px 1px #0b7474 inset !important;
-          box-shadow: 0px 0px 0px 1px #0b7474 inset !important;
-  color: #0b7474 !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #006680 inset !important;
+          box-shadow: 0px 0px 0px 1px #006680 inset !important;
+  color: #006680 !important;
 }
 .ui.buttons:not(.vertical) > .basic.primary.button:not(:first-child) {
   margin-left: -1px;

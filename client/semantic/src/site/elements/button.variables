@@ -2,5 +2,5 @@
     User Variable Overrides
 *******************************/
 
-@backgroundColor: #10a2a2;
+@backgroundColor: #008fb3;
 @textColor: #fff;
