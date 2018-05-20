@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Button, Icon } from 'semantic-ui-react'
 import withRedux from 'next-redux-wrapper'
+import ViewThoughtModal from './ViewThoughtModal'
 import { removeThought } from '../api'
 import { createStore, actions } from '../store'
 
@@ -21,6 +22,11 @@ class ThoughtsList extends React.Component {
 
     removeThought(user, accessToken, thoughtId, thoughts)
       .then((remainingThoughts) => { setThoughts(remainingThoughts) })
+  }
+
+  handleEdit (thoughtId) {
+    console.log('handle edit', thoughtId)
+    // set the state and then go to the new thought page
   }
 
   render () {
@@ -45,8 +51,8 @@ class ThoughtsList extends React.Component {
                   <Table.Cell><strong>{date}</strong></Table.Cell>
                   <Table.Cell>{thought.what}</Table.Cell>
                   <Table.Cell>
-                    <Button>View</Button>
-                    <Button>Edit</Button>
+                    <ViewThoughtModal thought={thought}/>
+                    <Button onClick={() => this.handleEdit(thought.id)}>Edit</Button>
                     <Button icon negative title='Remove' onClick={() => this.removeThought(thought.id)}><Icon name='remove'/></Button>
                   </Table.Cell>
                 </Table.Row>
