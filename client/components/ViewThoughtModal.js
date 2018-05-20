@@ -31,11 +31,18 @@ export default class ViewThoughtModal extends React.Component {
   }
 
   displayThinkingErrors (thinkingErrors) {
+    if (!thinkingErrors){
+      return <p>Not yet completed</p>
+    }
     const thinkingErrorsArray = thinkingErrors.split(',')
 
-    return thinkingErrorsArray.map(thinkingError =>
-        <li>{thinkingError}</li>
-      )
+    return (
+      <ul>
+      {thinkingErrorsArray.map((thinkingError, key) =>
+        <li key={key}>{thinkingError}</li>
+      )}
+      </ul>
+    )
   }
 
   render() {
@@ -84,7 +91,7 @@ export default class ViewThoughtModal extends React.Component {
             <p>{this.displayField(thought.nonSupportingEvidence)}</p>
 
             <p><strong>Thinking Errors</strong></p>
-            <ul>{this.displayThinkingErrors(thought.thinkingErrors)}</ul>
+            {this.displayThinkingErrors(thought.thinkingErrors)}
 
             <p><strong>New belief after reflection</strong></p>
             <p>{this.displayField(thought.newBelief)}</p>
