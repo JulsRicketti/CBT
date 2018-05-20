@@ -120,7 +120,8 @@ class Challenges extends React.Component {
         <h1>Challenges</h1>
         <h4>In order to overcome social anxiety one needs to challenge themselves to
           come in direct contact with their fears, register and observe how they felt,
-          how they reacted and the results of their challenges.
+          how they reacted and the results of their challenges. Generally speaking, something
+          you tend to avoid.
         </h4>
         <ChallengeModal user={user} accessToken={accessToken} challenges={challenges}/>
         <Divider/>

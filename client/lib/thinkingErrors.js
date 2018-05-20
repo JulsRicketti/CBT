@@ -8,7 +8,7 @@ const thinkingErrors = [
  { name: 'Mind reading', explanation: 'We can never be sure what someone else is thinking. Yet, everyone occasionally assumes they know what\'s going on in someone else\'s min' },
  { name: 'Labeling', explanation: 'Labeling involves putting a name to something.  Labeling people and experiences places them into categories that are often based on isolated incidents. Notice when you try to categorize things and work to avoid placing mental labels on everything.' },
  { name: 'Emotional reasoning', explanation: 'Our emotions aren\'t always based on reality but we often assume those feelings are rational. It\'s essential to recognize that emotions, just like our thoughts, aren\'t always based on the facts.' },
- { name: 'Fortunate telling', explanation: 'Although none of us knows what will happen in the future, we sometimes like to try our hand at fortune-telling. These types of thoughts can become self-fulfilling prophecies if you\'re not careful' },
+ { name: 'Fortune-telling', explanation: 'Although none of us knows what will happen in the future, we sometimes like to try our hand at fortune-telling. These types of thoughts can become self-fulfilling prophecies if you\'re not careful' },
  { name: 'Personalization', explanation: 'As much as we\'d like to say we don\'t think the world revolves around us, it\'s easy to personalize everything.' },
  { name: 'Unreal ideal', explanation: 'Making unfair comparisons about ourselves and other people can ruin our motivation.  Rather than measuring your life against someone else\'s, commit to focusing on your own path to success' },
 ]
