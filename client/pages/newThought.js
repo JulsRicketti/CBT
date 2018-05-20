@@ -23,6 +23,8 @@ const {
   thought: { setThoughts, setCurrentThought }
 } = actions
 
+// TODO: Fix the back step!
+
 class NewThought extends React.Component {
   static propTypes = {
     user: PropTypes.string.isRequired,
@@ -121,8 +123,23 @@ class NewThought extends React.Component {
     // then set the state
     const { currentStep } = this.state
     const obj = Object.assign({}, this.state)
-    console.warn('value', value)
     obj[currentStep][target] = value
+    this.setState(obj)
+  }
+
+  handleThinkingErrors (target, value) {
+    const { currentStep } = this.state
+    let obj = {... this.state}
+    let thinkingErrors = [... obj.deconstruction.thinkingErrors]
+
+    if (!value) {
+      thinkingErrors.push(target)
+    } else {
+      const index = thinkingErrors.indexOf(target)
+      thinkingErrors.splice(index, 1)
+    }
+
+    obj[currentStep].thinkingErrors = thinkingErrors
     this.setState(obj)
   }
 
@@ -241,13 +258,13 @@ class NewThought extends React.Component {
           </h4>
           { thinkingErrors.map((thought, index) => 
             <Form.Input
-            key={index}
-            control={Checkbox}
-            label={thought.name}
-            checked={!!deconstruction[thought.name]}
-            onChange={(evt) => this.handleChangeForms(`${thought.name}`, !deconstruction[thought.name])}
-            />
-          ) }
+              key={index}
+              control={Checkbox}
+              label={thought.name}
+              checked={deconstruction.thinkingErrors.indexOf(thought.name) !== -1}
+              onChange={(evt) => this.handleThinkingErrors(`${thought.name}`, deconstruction.thinkingErrors.indexOf(thought.name) !== -1)}
+              />
+          )}
         <Form.TextArea
           label=' Weighing up the evidence for and against as well as the thinking errors, what do you believe now?'
           value={newBelief}
