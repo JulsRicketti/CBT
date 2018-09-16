@@ -45,12 +45,12 @@ class Navbar extends React.Component {
             {
               user 
                 ?<Menu.Item>
-                  <Link href='/newThought'><Button primary compact><Icon className='plus' />New Thought</Button></Link>
+                  <a href='/newThought'><Button primary compact><Icon className='plus' />New Thought</Button></a>
                 </Menu.Item>
                 : null
             }
-            {user ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <Link href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></Link>}
-            {user ? null : <Link href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></Link>}
+            {user ? <Menu.Item name='Logout' onClick={() => this.handleLogout()}/> : <a href='/signin'><Menu.Item name='Sign In' active={pathname === '/signin'} /></a>}
+            {user ? null : <a href='/signup'><Menu.Item name='Sign Up' active={pathname === '/signup'} /></a>}
           </Menu.Menu>
         </Menu>
       </Segment>

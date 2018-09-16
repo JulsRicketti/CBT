@@ -1,38 +1,56 @@
 {
   "name": "cbt",
   "version": "1.0.0",
-  "main": "server/server.js",
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "start": "node .",
-    "dev": "DEBUG=loopback:security:* node .",
-    "posttest": "npm run lint && nsp check",
-    "create-tables": "node server/create-lb-tables.js"
-  },
+  "description": "The CBT app's first Prototype.",
+  "main": "index.js",
   "dependencies": {
-    "async": "^2.6.0",
-    "compression": "^1.7.2",
-    "cors": "^2.5.2",
-    "helmet": "^1.3.0",
-    "loopback": "^3.18.3",
-    "loopback-boot": "^2.27.1",
-    "loopback-component-explorer": "^5.3.0",
-    "loopback-connector-postgresql": "^3.3.0",
-    "serve-favicon": "^2.0.1",
-    "strong-error-handler": "^2.3.2"
+    "axios": "^0.17.1",
+    "babel-loader": "^7.1.4",
+    "jquery": "^3.2.1",
+    "next": "^6.0.3",
+    "next-redux-wrapper": "^1.3.5",
+    "prop-types": "^15.6.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.6",
+    "react-router-redux": "^4.0.8",
+    "react-spinners": "^0.2.6",
+    "redux": "^3.7.2",
+    "semantic-ui": "^2.2.13",
+    "semantic-ui-react": "^0.76.0"
   },
   "devDependencies": {
-    "eslint": "^3.17.1",
-    "eslint-config-loopback": "^8.0.0",
-    "nsp": "^2.1.0"
+    "@babel/core": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "@babel/register": "^7.0.0-beta.47",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-object-rest-spread": "6.23.0",
+    "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-standard": "^3.0.1",
+    "gulp": "^3.9.1",
+    "mocha": "^5.0.4"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "semantic": "cd semantic && gulp build",
+    "test": "mocha --require @babel/register --watch-extensions js **/*.test.js"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "git+https://github.com/JulsRicketti/CBT.git"
   },
-  "license": "UNLICENSED",
-  "description": "cbt"
+  "author": "Julia Ricketti",
+  "license": "MIT"
 }
